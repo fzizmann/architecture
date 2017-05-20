@@ -33,7 +33,7 @@ public class ConstraintTest extends TestCase {
         JavaPackage analyzer = constraint.addPackage("de.fz.analyzer");
         JavaPackage dsl = constraint.addPackage("de.fz.dsl");
         JavaPackage test = constraint.addPackage("test");
-        JavaPackage test1 = constraint.addPackage("Lulu");
+        JavaPackage test1 = constraint.addPackage("TestPackage");
         JavaPackage test2 = constraint.addPackage("java.util");
         JavaPackage test3 = constraint.addPackage("jdepend.framework");
         JavaPackage test4 = constraint.addPackage("de.fz.jdepend");

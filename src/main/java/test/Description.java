@@ -1,6 +1,6 @@
 package test;
 
-import Lulu.Bono;
+import TestPackage.TestClass;
 import de.fz.analyzer.Analyzer;
 import de.fz.analyzer.Violation;
 import de.fz.dependency.DependencyTracker;
@@ -23,11 +23,11 @@ public class Description implements Architecture, Analyzer {
         ArchitectureDescription archDes = new ArchitectureDescription();
 
         Component comp1 = new Component("View");
-        comp1.getConsist().add(Bono.class.getPackage());
+        comp1.getConsist().add(TestClass.class.getPackage());
         archDes.getComponents().add(comp1);
 
         Component comp2 = new Component("Model");
-        comp2.getConsist().add(Bono.class.getPackage());
+        comp2.getConsist().add(TestClass.class.getPackage());
         comp2.getConsist().add(Analyzer.class.getPackage());
         comp2.getUses().add(comp1);
         archDes.getComponents().add(comp2);

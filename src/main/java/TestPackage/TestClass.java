@@ -1,6 +1,6 @@
-package Lulu;
+package TestPackage;
 
-public class Bono {
+public class TestClass {
 
     private String test;
 
