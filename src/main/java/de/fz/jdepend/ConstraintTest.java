@@ -16,7 +16,10 @@ public class ConstraintTest extends TestCase {
 
     protected void setUp() throws IOException {
         jdepend = new JDepend();
-        jdepend.addDirectory("C:\\Users\\Friedrich\\IdeaProjects\\MyFirst\\target\\classes");
+
+        System.out.println("Working Directory = " +
+            System.getProperty("user.dir"));
+        jdepend.addDirectory(System.getProperty("user.dir")+ "\\target\\classes");
     }
 
     /**
