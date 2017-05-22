@@ -5,45 +5,51 @@ import java.util.ArrayList;
 
 public class Component {
 
-    private String componentName;
+  private String componentName;
 
-    private ArrayList<Package> consist;
+  private ArrayList<Package> packages;
 
-    private ArrayList<Component> uses;
+  private ArrayList<Class> interfaces;
+
+  private ArrayList<Class> implementations;
+
+  private ArrayList<Component> components;
+
+  private ArrayList<Package> usages;
 
 
-    public Component(String componentName) {
-        this.componentName = componentName;
-        this.consist = new ArrayList<Package>();
-        this.uses = new ArrayList<Component>();
-    }
+  public Component(String componentName) {
+    this.componentName = componentName;
+    this.packages = new ArrayList<Package>();
+    this.usages = new ArrayList<Package>();
+  }
 
-    public ArrayList<Package> getConsist() {
-        return consist;
-    }
+  public ArrayList<Package> getConsist() {
+    return packages;
+  }
 
-    public void setConsist(ArrayList<Package> consist) {
-        this.consist = consist;
-    }
+  public void setConsist(ArrayList<Package> consist) {
+    this.packages = consist;
+  }
 
-    public ArrayList<Component> getUses() {
-        return uses;
-    }
+  public ArrayList<Package> getUses() {
+    return usages;
+  }
 
-    public void setUses(ArrayList<Component> uses) {
-        this.uses = uses;
-    }
+  public void setUses(ArrayList<Package> uses) {
+    this.usages = uses;
+  }
 
-    public Component addUses(Component component) {
-        this.uses.add(component);
-        return this;
-    }
+  public Component addUses(Package component) {
+    this.usages.add(component);
+    return this;
+  }
 
-    public String getComponentName() {
-        return componentName;
-    }
+  public String getComponentName() {
+    return componentName;
+  }
 
-    public void setComponentName(String componentName) {
-        this.componentName = componentName;
-    }
+  public void setComponentName(String componentName) {
+    this.componentName = componentName;
+  }
 }
