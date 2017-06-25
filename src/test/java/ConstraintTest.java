@@ -4,7 +4,7 @@ import jdepend.framework.JDepend;
 import jdepend.framework.JavaPackage;
 import junit.framework.TestCase;
 
-public class ConstraintTest extends TestCase {
+  public class ConstraintTest extends TestCase {
 
   private JDepend jdepend;
 

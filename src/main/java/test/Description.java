@@ -34,7 +34,6 @@ public class Description implements Architecture, Analyzer {
     Component comp2 = new Component("Model");
     comp2.getConsist().add(TestClass.class.getPackage());
     comp2.getConsist().add(Analyzer.class.getPackage());
-    comp2.getUses().add(comp1);
     archDes.getComponents().add(comp2);
 
     return archDes;
@@ -52,10 +51,10 @@ public class Description implements Architecture, Analyzer {
       consistClasses = this.loadPackageClasses(component.getConsist());
       // 2. load all dependency classes of classes in consists packages
       dependencies = this.loadDependencies(consistClasses);
-      for (Component usedComponent : component.getUses()) {
-        // 3. load all classes from uses
-        usedClasses = this.loadPackageClasses(usedComponent.getConsist());
-      }
+//      for (Component usedComponent : component.getUses()) {
+//        // 3. load all classes from uses
+//        usedClasses = this.loadPackageClasses(usedComponent.getConsist());
+//      }
       // 4. load all dependency classes of classes from uses
       allowedDependencies.addAll(this.loadDependencies(usedClasses));
       // 5. compare loaded classes
