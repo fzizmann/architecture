@@ -1,6 +1,5 @@
 package test;
 
-import TestPackage.TestClass;
 import de.fz.analyzer.Analyzer;
 import de.fz.analyzer.Violation;
 import de.fz.dependency.DependencyTracker;
@@ -25,18 +24,19 @@ import org.reflections.util.FilterBuilder;
 public class Description implements Architecture, Analyzer {
 
   public ArchitectureDescription defineArchitecture() {
-    ArchitectureDescription archDes = new ArchitectureDescription();
+//    ArchitectureDescription archDes = new ArchitectureDescription();
+//
+//    Component comp1 = new Component("View");
+//    comp1.getConsist().add(TestClass.class.getPackage());
+//    archDes.getComponents().add(comp1);
+//
+//    Component comp2 = new Component("Model");
+//    comp2.getConsist().add(TestClass.class.getPackage());
+//    comp2.getConsist().add(Analyzer.class.getPackage());
+//    archDes.getComponents().add(comp2);
 
-    Component comp1 = new Component("View");
-    comp1.getConsist().add(TestClass.class.getPackage());
-    archDes.getComponents().add(comp1);
-
-    Component comp2 = new Component("Model");
-    comp2.getConsist().add(TestClass.class.getPackage());
-    comp2.getConsist().add(Analyzer.class.getPackage());
-    archDes.getComponents().add(comp2);
-
-    return archDes;
+//    return archDes;
+    return new ArchitectureDescription();
   }
 
   public void analyzeArchitecture(Architecture description) {
@@ -48,7 +48,7 @@ public class Description implements Architecture, Analyzer {
 
     for (Component component : architectureDescription.getComponents()) {
       // 1. load all classes in consists packages
-      consistClasses = this.loadPackageClasses(component.getConsist());
+//      consistClasses = this.loadPackageClasses(component.getConsist());
       // 2. load all dependency classes of classes in consists packages
       dependencies = this.loadDependencies(consistClasses);
 //      for (Component usedComponent : component.getUses()) {
@@ -67,14 +67,14 @@ public class Description implements Architecture, Analyzer {
       Set<String> dependencies,
       Set<String> allowedDependencies
   ) {
-    for (String dependency : dependencies) {
-      if (!allowedDependencies.contains(dependency)) {
-        this.printViolation(
-            new Violation(
-                component.getComponentName(),
-                dependency));
-      }
-    }
+//    for (String dependency : dependencies) {
+//      if (!allowedDependencies.contains(dependency)) {
+//        this.printViolation(
+//            new Violation(
+//                component.getComponentName(),
+//                dependency));
+//      }
+//    }
   }
 
   /**
