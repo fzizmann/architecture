@@ -12,6 +12,9 @@ public class StructureLoader {
       //2. Packages und Klassen laden
       //3. ablegen in Struktur Komponente => Klassen
     }
+
+    //erste Klassen Iteration: es werden alle Klassen entfernt, die nur Referenzen innheralb der Komponente haben
+    // dazu müssen die Klassen vom DependencyVisitor durchlaufen werden
   }
 
 }
