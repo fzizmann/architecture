@@ -1,58 +1,49 @@
 package de.fz.analyzer;
 
-import de.fz.dsl.ArchitectureDescription;
-import test.Description;
-
 public class Violation {
 
-    /**
-     * Component in which violation happened
-     */
-    private String component;
-    /**
-     * Class that violates rules
-     */
-    private String violatingClass;
-    /**
-     * Class which was ued
-     */
-    private String violatedClass;
+  /**
+   * Component in which violation happened
+   */
+  private String component;
+  /**
+   * Class that violates rules
+   */
+  private String violatingClass;
+  /**
+   * Class which was ued
+   */
+  private String violatedClass;
 
-    public Violation(String component, String violatedClass) {
-        this.component = component;
-        this.violatedClass = violatedClass;
-    }
+  public Violation(String component, String violatedClass) {
+    this.component = component;
+    this.violatedClass = violatedClass;
+  }
 
-    public String getComponent() {
-        return component;
-    }
+  public String getComponent() {
+    return component;
+  }
 
-    public Violation setComponent(String component) {
-        this.component = component;
-        return this;
-    }
+  public Violation setComponent(String component) {
+    this.component = component;
+    return this;
+  }
 
-    public String getViolatingClass() {
-        return violatingClass;
-    }
+  public String getViolatingClass() {
+    return violatingClass;
+  }
 
-    public Violation setViolatingClass(String violatingClass) {
-        this.violatingClass = violatingClass;
-        return this;
-    }
+  public Violation setViolatingClass(String violatingClass) {
+    this.violatingClass = violatingClass;
+    return this;
+  }
 
-    public String getViolatedClass() {
-        return violatedClass;
-    }
+  public String getViolatedClass() {
+    return violatedClass;
+  }
 
-    public Violation setViolatedClass(String violatedClass) {
-        this.violatedClass = violatedClass;
-        return this;
-    }
-
-    public void testFunction(ArchitectureDescription arch) {
-        ArchitectureDescription asd = new ArchitectureDescription();
-        Description asd2 = new Description();
-        DependencyAnalyzer anl = new DependencyAnalyzer("asd");
-    }
+  public Violation setViolatedClass(String violatedClass) {
+    this.violatedClass = violatedClass;
+    return this;
+  }
 }

@@ -1,4 +1,4 @@
-package de.fz.dsl;
+package de.thb.fz.dsl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
