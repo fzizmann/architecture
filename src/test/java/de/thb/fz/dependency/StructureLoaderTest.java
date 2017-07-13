@@ -9,7 +9,6 @@ import de.fz.dsl.ArchitectureDescription;
 import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
-import test.EntryPoint;
 
 
 public class StructureLoaderTest {

@@ -1,4 +1,4 @@
-package test;
+package de.thb.fz.dependency;
 
 public class Description {
 
