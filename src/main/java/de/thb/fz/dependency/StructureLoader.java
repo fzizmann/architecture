@@ -8,15 +8,21 @@ public class StructureLoader {
 
   public void loadStructures(Architecture architectureDescription) {
     for (Component comp : architectureDescription.getComponents()) {
-      //1. aus jeder Komponenten JavaPackages abfragen
+
+      //1. aus jeder Komponente JavaPackages abfragen
+
       //2. Packages und Klassen laden
-      //3. ablegen in Struktur Komponente => Klassen
+      //  i.es muss jede Klasse durchlafen werden
+      //  ii. jede Dependency der Klasse muss geprüft werden, ob diese auf eine andere Komponente zugreift
+      //3. ablegen in graphiz Struktur?
+      // Ziel Struktur:
+      // Componente A greift auf Liste<Componenten>
+      // Componente B greift auf Liste<Componenten>
+      // ...
     }
 
-    // alle Klassen für Projekt laden und Mengen bilden?
-
-    // erste Klassen Iteration: es werden alle Klassen entfernt, die nur Referenzen innheralb der Komponente haben
-    // dazu müssen die Klassen vom DependencyVisitor durchlaufen werden
+    // 1. Iteration: aufbau eines Komponentenbaums
+    // 2. Ietration: Interfaces und Implementierungen werden als "erlaubte" Verbindungen markiert
   }
 
 }

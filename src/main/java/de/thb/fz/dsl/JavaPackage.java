@@ -11,4 +11,8 @@ public class JavaPackage {
   public static JavaPackage javaPackage(String name) {
     return new JavaPackage(name);
   }
+
+  public String getPackageName() {
+    return packageName;
+  }
 }

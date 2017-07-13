@@ -47,4 +47,20 @@ public class Component {
     this.subComponents.addAll(Arrays.asList(components));
     return this;
   }
+
+  public ArrayList<JavaPackage> getStructure() {
+    return structure;
+  }
+
+  public ArrayList<Class> getInterfaces() {
+    return interfaces;
+  }
+
+  public ArrayList<Class> getImplementations() {
+    return implementations;
+  }
+
+  public ArrayList<Component> getSubComponents() {
+    return subComponents;
+  }
 }
