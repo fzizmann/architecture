@@ -1,9 +1,54 @@
 package de.thb.fz.dependency;
 
-public class Description {
+import static de.thb.fz.dsl.Architecture.architecture;
+import static de.thb.fz.dsl.Component.component;
+import static de.thb.fz.dsl.JavaPackage.javaPackage;
 
-//  public ArchitectureDescription defineArchitecture() {
-////    ArchitectureDescription archDes = new ArchitectureDescription();
+import de.thb.fz.dsl.Architecture;
+import java.util.Arrays;
+import org.junit.Before;
+import org.junit.Test;
+
+
+public class ArchitectureTest {
+
+  private Architecture architecture;
+
+  @Before
+  public void setUp() throws Exception {
+    this.architecture = architecture(
+        component("Unit1")
+            .structure(
+                javaPackage("de.fz.first.*"),
+                javaPackage("de.fz.second.*")
+            )
+            .interfaces(
+                String.class,
+                Number.class
+            )
+            .implementations(
+                Integer.class,
+                Object.class)
+        ,
+        component("Unit2")
+            .structure(
+                javaPackage("test.test1.*")
+            )
+            .interfaces(
+                Arrays.class
+            )
+            .implementations(
+                String.class
+            )
+    );
+  }
+
+  @Test
+  public void testLoader() {
+  }
+
+//  public Architecture defineArchitecture() {
+////    Architecture archDes = new Architecture();
 ////
 ////    Component comp1 = new Component("View");
 ////    comp1.getConsist().add(TestClass.class.getPackage());
@@ -15,11 +60,11 @@ public class Description {
 ////    archDes.getComponents().add(comp2);
 //
 ////    return archDes;
-//    return new ArchitectureDescription();
+//    return new Architecture();
 //  }
 //
 //  public void analyzeArchitecture(Architecture description) {
-//    ArchitectureDescription architectureDescription = description.defineArchitecture();
+//    Architecture architectureDescription = description.defineArchitecture();
 //    Set<Class<? extends Object>> consistClasses = new HashSet<Class<? extends Object>>();
 //    Set<Class<? extends Object>> usedClasses = new HashSet<Class<? extends Object>>();
 //    Set<String> dependencies = new HashSet<String>();

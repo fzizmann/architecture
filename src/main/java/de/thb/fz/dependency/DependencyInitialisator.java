@@ -1,6 +1,4 @@
-package de.fz.dependency;
-
-import org.objectweb.asm.ClassReader;
+package de.thb.fz.dependency;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
+import org.objectweb.asm.ClassReader;
 
 public class DependencyInitialisator {
     private String basePath;

@@ -1,4 +1,4 @@
-package de.fz.analyzer;
+package de.thb.fz.analyzer;
 
 public class Violation {
 

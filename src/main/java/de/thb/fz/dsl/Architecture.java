@@ -3,11 +3,11 @@ package de.thb.fz.dsl;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class ArchitectureDescription {
+public class Architecture {
 
   private ArrayList<Component> components;
 
-  public ArchitectureDescription() {
+  public Architecture() {
     this.components = new ArrayList<Component>();
   }
 
@@ -15,11 +15,11 @@ public class ArchitectureDescription {
     return components;
   }
 
-  public static ArchitectureDescription architecture(Component... components) {
-    return new ArchitectureDescription().components(components);
+  public static Architecture architecture(Component... components) {
+    return new Architecture().components(components);
   }
 
-  public ArchitectureDescription components(Component... components) {
+  public Architecture components(Component... components) {
     this.components.addAll(Arrays.asList(components));
     return this;
   }
