@@ -21,6 +21,7 @@ public class Component {
   }
 
   public Component(String componentName) {
+    this.structure = new ArrayList<JavaPackage>();
     this.componentName = componentName;
   }
 

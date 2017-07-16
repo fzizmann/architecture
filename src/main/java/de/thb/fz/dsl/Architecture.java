@@ -2,7 +2,10 @@ package de.thb.fz.dsl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Architecture {
 
@@ -10,6 +13,7 @@ public class Architecture {
   private Map<String, Component> packageMap;
 
   public Architecture() {
+    this.packageMap = new HashMap<String, Component>();
     this.components = new ArrayList<Component>();
   }
 
@@ -42,10 +46,28 @@ public class Architecture {
 
   /**
    * Sucht eine Componente anhand einen angegebenen Pakets.
-   * //TODO implementieren
    */
   public Component findComponentByPackage(String packageName) {
-    return new Component("");
+    Iterator it = this.packageMap.entrySet().iterator();
+    while (it.hasNext()) {
+      Entry pair = (Entry) it.next();
+      if (packageName.startsWith((String) pair.getKey())) {
+        return (Component) pair.getValue();
+      }
+//      it.remove();
+    }
+    return null;
   }
 
+  public void setComponents(ArrayList<Component> components) {
+    this.components = components;
+  }
+
+  public Map<String, Component> getPackageMap() {
+    return packageMap;
+  }
+
+  public void setPackageMap(Map<String, Component> packageMap) {
+    this.packageMap = packageMap;
+  }
 }

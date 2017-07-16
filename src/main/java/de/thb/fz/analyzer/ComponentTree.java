@@ -4,8 +4,18 @@ import java.util.ArrayList;
 
 public class ComponentTree {
 
-  private String componentName;
-  private ArrayList<String> nichtErlaubteKomponenten;
-  private ArrayList<String> erlaubteKomponenten;
+  private ArrayList<ComponentNode> componentList;
 
+  public ComponentTree() {
+    componentList = new ArrayList<ComponentNode>();
+  }
+
+  public ComponentTree addComponent(ComponentNode node) {
+    this.componentList.add(node);
+    return this;
+  }
+
+  public ArrayList<ComponentNode> getComponentList() {
+    return componentList;
+  }
 }

@@ -4,8 +4,16 @@ import static de.thb.fz.dsl.Architecture.architecture;
 import static de.thb.fz.dsl.Component.component;
 import static de.thb.fz.dsl.JavaPackage.javaPackage;
 
+import de.thb.fz.analyzer.ComponentNode;
+import de.thb.fz.analyzer.ComponentTree;
 import de.thb.fz.dsl.Architecture;
-import java.util.Arrays;
+import de.thb.fz.dsl.Component;
+import de.thb.fz.dsl.JavaPackage;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,75 +25,83 @@ public class ArchitectureTest {
   @Before
   public void setUp() throws Exception {
     this.architecture = architecture(
-        component("Unit1")
+        component("extensions")
             .structure(
-                javaPackage("de.fz.first.*"),
-                javaPackage("de.fz.second.*")
-            )
-            .interfaces(
-                String.class,
-                Number.class
-            )
-            .implementations(
-                Integer.class,
-                Object.class)
-        ,
-        component("Unit2")
+                javaPackage("junit.extensions")
+            ),
+        component("framework")
             .structure(
-                javaPackage("test.test1.*")
-            )
-            .interfaces(
-                Arrays.class
-            )
-            .implementations(
-                String.class
+                javaPackage("junit.framework")
+            ),
+        component("runner")
+            .structure(
+                javaPackage("junit.runner")
+            ),
+        component("textui")
+            .structure(
+                javaPackage("junit.textui")
+            ),
+        component("org")
+            .structure(
+                javaPackage("org.junit")
             )
     );
   }
 
   @Test
   public void testLoader() {
+    DependencyLoader loader = new DependencyLoader();
+    ComponentTree tree = new ComponentTree();
+    String basePath = "C:\\Users\\Friedrich\\Desktop\\junit\\";
+
+    Iterator it = this.architecture.getPackageMap().entrySet().iterator();
+    while (it.hasNext()) {
+      Entry pair = (Entry) it.next();
+      ComponentNode node = new ComponentNode();
+      node.setComponentname(((Component) pair.getValue()).getComponentName());
+      String pathname = basePath + (String) pair.getKey();
+
+      ArrayList<String> classList = loader
+          .generateClassList(new File(pathname.replace(".", "\\")));
+      ArrayList<String> depList = new ArrayList<String>();
+      for (String jClass : classList) {
+        try {
+          String shortclass = jClass.replace(basePath, "").replace("\\", ".").replace(".class", "");
+          depList.addAll(loader.findDependenciesForClass(shortclass));
+          for (String dep : depList) {
+            Component cp = architecture.findComponentByPackage(dep);
+            if (cp != null) {
+              node.addComponent(cp.getComponentName());
+            }
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+      tree.addComponent(node);
+//      it.remove();
+    }
+
+    for (ComponentNode componentNode : tree.getComponentList()) {
+      System.out.println("Name " + componentNode.getComponentname());
+      for (String conn : componentNode.getConnection()) {
+        System.out.println("-> " + conn);
+      }
+    }
   }
 
-//  public Architecture defineArchitecture() {
-////    Architecture archDes = new Architecture();
-////
-////    Component comp1 = new Component("View");
-////    comp1.getConsist().add(TestClass.class.getPackage());
-////    archDes.getComponents().add(comp1);
-////
-////    Component comp2 = new Component("Model");
-////    comp2.getConsist().add(TestClass.class.getPackage());
-////    comp2.getConsist().add(Analyzer.class.getPackage());
-////    archDes.getComponents().add(comp2);
-//
-////    return archDes;
-//    return new Architecture();
-//  }
-//
-//  public void analyzeArchitecture(Architecture description) {
-//    Architecture architectureDescription = description.defineArchitecture();
-//    Set<Class<? extends Object>> consistClasses = new HashSet<Class<? extends Object>>();
-//    Set<Class<? extends Object>> usedClasses = new HashSet<Class<? extends Object>>();
-//    Set<String> dependencies = new HashSet<String>();
-//    Set<String> allowedDependencies = new HashSet<String>();
-//
-//    for (Component component : architectureDescription.getComponents()) {
-//      // 1. load all classes in consists packages
-////      consistClasses = this.loadPackageClasses(component.getConsist());
-//      // 2. load all dependency classes of classes in consists packages
-//      dependencies = this.loadDependencies(consistClasses);
-////      for (Component usedComponent : component.getUses()) {
-////        // 3. load all classes from uses
-////        usedClasses = this.loadPackageClasses(usedComponent.getConsist());
-////      }
-//      // 4. load all dependency classes of classes from uses
-//      allowedDependencies.addAll(this.loadDependencies(usedClasses));
-//      // 5. compare loaded classes
-//      this.validateDependencies(component, dependencies, allowedDependencies);
-//    }
-//  }
-//
+  @Test
+  public void testFindComponentsByPackage() {
+    Architecture arch = architecture(
+        component("TestComponent")
+            .structure(
+                new JavaPackage("de.thb")
+            )
+    );
+    Component comp = arch.findComponentByPackage("de.thb.fz.test");
+    Assert.assertEquals("", comp.getComponentName(), "TestComponent");
+  }
+
 //  private void validateDependencies(
 //      Component component,
 //      Set<String> dependencies,
