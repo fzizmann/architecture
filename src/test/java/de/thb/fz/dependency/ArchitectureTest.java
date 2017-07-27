@@ -82,12 +82,14 @@ public class ArchitectureTest {
 //      it.remove();
     }
 
+    System.out.println("digraph junit {");
     for (ComponentNode componentNode : tree.getComponentList()) {
-      System.out.println("Name " + componentNode.getComponentname());
+//      System.out.println("Name " + componentNode.getComponentname());
       for (String conn : componentNode.getConnection()) {
-        System.out.println("-> " + conn);
+        System.out.println(componentNode.getComponentname() + " -> " + conn + ";");
       }
     }
+    System.out.println("}");
   }
 
   @Test
