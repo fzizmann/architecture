@@ -1,5 +1,6 @@
 package de.thb.fz.analyzer;
 
+import de.thb.fz.dsl.Component;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -7,7 +8,9 @@ import java.util.Set;
 public class ComponentNode {
 
   private String componentname;
+  private Component component;
   private ArrayList<String> connection;
+  private ArrayList<ComponentConnection> connections;
 
   public void minimizeConnectionList() {
     Set<String> minimizedList = new HashSet<String>();
@@ -17,6 +20,7 @@ public class ComponentNode {
 
   public ComponentNode() {
     connection = new ArrayList<String>();
+    connections = new ArrayList<ComponentConnection>();
   }
 
   public ComponentNode addComponent(String name) {
@@ -37,5 +41,25 @@ public class ComponentNode {
 
   public void setComponentname(String componentname) {
     this.componentname = componentname;
+  }
+
+  public void setConnection(ArrayList<String> connection) {
+    this.connection = connection;
+  }
+
+  public ArrayList<ComponentConnection> getConnections() {
+    return connections;
+  }
+
+  public void setConnections(ArrayList<ComponentConnection> connections) {
+    this.connections = connections;
+  }
+
+  public Component getComponent() {
+    return component;
+  }
+
+  public void setComponent(Component component) {
+    this.component = component;
   }
 }
