@@ -5,6 +5,7 @@ import static de.thb.fz.dsl.Component.component;
 import static de.thb.fz.dsl.JavaPackage.javaPackage;
 
 import de.thb.fz.analyzer.ComponentTree;
+import de.thb.fz.analyzer.builder.ComponentTreeBuilder;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.output.GraphBuilder;
 import org.junit.Before;
@@ -104,8 +105,12 @@ public class ArchitectureTest {
 
   @Test
   public void testLoader() {
-    ComponentTree tree = new ComponentTree(this.architecture);
-    tree.buildComponentTree("C:\\Users\\Friedrich\\Desktop\\junit\\");
+    ComponentTreeBuilder treeBuilder = new ComponentTreeBuilder(
+        new DependencyLoader(),
+        "C:\\Users\\Friedrich\\Desktop\\junit\\",
+        this.architecture);
+    ComponentTree tree = treeBuilder
+        .buildComponentTree();
     System.out.println(GraphBuilder.drawGraph(tree));
   }
 }

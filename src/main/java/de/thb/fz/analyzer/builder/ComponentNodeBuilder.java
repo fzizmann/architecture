@@ -68,8 +68,8 @@ public class ComponentNodeBuilder {
    */
   public void minimizeClassList(ComponentNode componentNode) {
     Set<String> minimizedList = new HashSet<String>();
-    minimizedList.addAll(componentNode.getClassList());
-    componentNode.setClassList(new ArrayList<String>(minimizedList));
+//    minimizedList.addAll(componentNode.getClassList());
+//    componentNode.setClassList(new ArrayList<String>(minimizedList));
   }
 
   /**
