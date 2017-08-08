@@ -94,6 +94,27 @@ public class ComponentTree {
     return null;
   }
 
+  public ComponentTree addComponent(ComponentNode node) {
+    this.componentList.add(node);
+    return this;
+  }
+
+  public Architecture getArchitecture() {
+    return architecture;
+  }
+
+  public void setArchitecture(Architecture architecture) {
+    this.architecture = architecture;
+  }
+
+  public ArrayList<ComponentNode> getComponentList() {
+    return componentList;
+  }
+
+  public void setComponentList(ArrayList<ComponentNode> componentList) {
+    this.componentList = componentList;
+  }
+
   public Map<String, Component> getPackageMap() {
     return packageMap;
   }
@@ -101,14 +122,4 @@ public class ComponentTree {
   public void setPackageMap(Map<String, Component> packageMap) {
     this.packageMap = packageMap;
   }
-
-  public ComponentTree addComponent(ComponentNode node) {
-    this.componentList.add(node);
-    return this;
-  }
-
-  public ArrayList<ComponentNode> getComponentList() {
-    return componentList;
-  }
-
 }
