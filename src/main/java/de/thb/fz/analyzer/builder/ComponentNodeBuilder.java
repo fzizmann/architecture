@@ -3,7 +3,6 @@ package de.thb.fz.analyzer.builder;
 import de.thb.fz.analyzer.ComponentNode;
 import de.thb.fz.dependency.DependencyLoader;
 import de.thb.fz.dsl.Component;
-import de.thb.fz.dsl.JavaPackage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,11 +33,11 @@ public class ComponentNodeBuilder {
    * Erstellt eine Liste der Klassen die in dieser Komponente enthalten sind.
    */
   public void buildClassList(ComponentNode componentNode) {
-    ArrayList<JavaPackage> javaPackages = componentNode.getComponent().getStructure();
+    ArrayList<String> javaPackages = componentNode.getComponent().getStructure();
     //TODO DependencyLoader.generateClassList in ArrayList<Class> umbauen
-    for (JavaPackage javaPackage : javaPackages) {
+    for (String jPackage : javaPackages) {
       //laden der Klassen in einem Package
-      File dir = new File(javaPackage.getPackageName().replace(".", "\\"));
+      File dir = new File(jPackage.replace(".", "\\"));
 //      componentNode.setClassList(DependencyLoader
 //          .generateClassList(dir));
     }

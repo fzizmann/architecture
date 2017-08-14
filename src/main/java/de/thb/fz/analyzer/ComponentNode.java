@@ -2,18 +2,27 @@ package de.thb.fz.analyzer;
 
 import de.thb.fz.dsl.Component;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ComponentNode {
 
+  // TODO entfernen der Sprachelemente aus der Datenstruktur, diese sollte vollständig in die DS übersetzt werden
   private Component component;
   private ArrayList<String> connection;
   private ArrayList<Class> classList;
   private ArrayList<Class> dependencyList;
-  private ArrayList<ComponentConnection> connections;
+  // TODO neue Strukturen
+  private String componentName;
+  private HashMap<Class, Class> definedConnections;
+  private HashMap<Class, Class> connectioins;
+  private HashMap<Class, Component> users;
+  private HashMap<Class, Component> used;
+  private ArrayList<ComponentNode> subComponents;
+  private String type;
+
 
   public ComponentNode() {
     connection = new ArrayList<String>();
-    connections = new ArrayList<ComponentConnection>();
   }
 
   public ComponentNode addComponent(String name) {
@@ -53,14 +62,6 @@ public class ComponentNode {
 
   public void setDependencyList(ArrayList<Class> dependencyList) {
     this.dependencyList = dependencyList;
-  }
-
-  public ArrayList<ComponentConnection> getConnections() {
-    return connections;
-  }
-
-  public void setConnections(ArrayList<ComponentConnection> connections) {
-    this.connections = connections;
   }
 }
 

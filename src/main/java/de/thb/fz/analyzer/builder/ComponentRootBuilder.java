@@ -1,11 +1,10 @@
 package de.thb.fz.analyzer.builder;
 
 import de.thb.fz.analyzer.ComponentNode;
-import de.thb.fz.analyzer.ComponentTree;
+import de.thb.fz.analyzer.ComponentRoot;
 import de.thb.fz.dependency.DependencyLoader;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
-import de.thb.fz.dsl.JavaPackage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,14 +16,14 @@ import java.util.Set;
  * Diese Klasse erstellt den Komponentenbaum mittels der Architektur.
  */
 // TODO Zugriff auf Klassenmember in Methoden entfernen, lieber Aufrufparameter zu übergeben
-public class ComponentTreeBuilder {
+public class ComponentRootBuilder {
 
   private DependencyLoader dependencyLoader;
   private String basePath;
   private Architecture architecture;
-  private ComponentTree tree;
+  private ComponentRoot tree;
 
-  public ComponentTreeBuilder(
+  public ComponentRootBuilder(
       DependencyLoader dependencyLoader,
       String basePath,
       Architecture architecture) {
@@ -33,8 +32,8 @@ public class ComponentTreeBuilder {
     this.architecture = architecture;
   }
 
-  public ComponentTree buildComponentTree() {
-    this.tree = new ComponentTree(architecture);
+  public ComponentRoot buildComponentTree() {
+    this.tree = new ComponentRoot(architecture);
     this.buildPackageComponentMap();
     Iterator it = this.tree.getPackageMap().entrySet().iterator();
 
@@ -87,8 +86,8 @@ public class ComponentTreeBuilder {
    */
   public void buildPackageComponentMap() {
     for (Component component : architecture.getComponents()) {
-      for (JavaPackage packageString : component.getStructure()) {
-        this.tree.getPackageMap().put(packageString.getPackageName(), component);
+      for (String jPackage : component.getStructure()) {
+        this.tree.getPackageMap().put(jPackage, component);
       }
     }
   }

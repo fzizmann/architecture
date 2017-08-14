@@ -8,16 +8,17 @@ public class Component {
 
   private String componentName;
 
-  private ArrayList<JavaPackage> structure;
+  private ArrayList<String> structure;
 
   private ArrayList<Class> interfaces;
 
   private ArrayList<Class> implementations;
 
   private ArrayList<Component> subComponents;
+  private String type;
 
   public Component(String componentName) {
-    this.structure = new ArrayList<JavaPackage>();
+    this.structure = new ArrayList<String>();
     this.interfaces = new ArrayList<Class>();
     this.implementations = new ArrayList<Class>();
     this.subComponents = new ArrayList<Component>();
@@ -28,8 +29,8 @@ public class Component {
     return new Component(ComponentName);
   }
 
-  public Component structure(JavaPackage... javaPackage) {
-    this.structure.addAll(Arrays.asList(javaPackage));
+  public Component structure(String... jPackage) {
+    this.structure.addAll(Arrays.asList(jPackage));
     return this;
   }
 
@@ -52,7 +53,7 @@ public class Component {
     return componentName;
   }
 
-  public ArrayList<JavaPackage> getStructure() {
+  public ArrayList<String> getStructure() {
     return structure;
   }
 

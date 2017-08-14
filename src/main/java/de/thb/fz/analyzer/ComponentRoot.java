@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ComponentTree {
+public class ComponentRoot {
 
   /**
    * Die definierte Architektur
@@ -21,13 +21,13 @@ public class ComponentTree {
    */
   private Map<String, Component> packageMap;
 
-  public ComponentTree(Architecture architecture) {
+  public ComponentRoot(Architecture architecture) {
     componentList = new ArrayList<ComponentNode>();
     this.packageMap = new HashMap<String, Component>();
     this.architecture = architecture;
   }
 
-  public ComponentTree addComponent(ComponentNode node) {
+  public ComponentRoot addComponent(ComponentNode node) {
     this.componentList.add(node);
     return this;
   }
