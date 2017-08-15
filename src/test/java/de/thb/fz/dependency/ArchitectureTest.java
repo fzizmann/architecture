@@ -105,11 +105,9 @@ public class ArchitectureTest {
   @Test
   public void testLoader() {
     ComponentRootBuilder treeBuilder = new ComponentRootBuilder(
-        new DependencyLoader(),
-        "C:\\Users\\Friedrich\\Desktop\\junit\\",
-        this.architecture);
+        new DependencyLoader());
     ComponentRoot tree = treeBuilder
-        .buildComponentTree();
+        .buildComponentRoot(this.architecture, "C:\\Users\\Friedrich\\Desktop\\junit\\");
     System.out.println(GraphBuilder.drawGraph(tree));
   }
 }

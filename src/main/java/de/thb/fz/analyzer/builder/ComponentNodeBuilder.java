@@ -53,7 +53,7 @@ public class ComponentNodeBuilder {
       //laden der Abhängigkeiten
       String shortclass = jClass.getName().replace("\\", ".").replace(".class", "");
       try {
-        depList.addAll(DependencyLoader.findDependenciesForClass(shortclass));
+        depList.addAll(dependencyLoader.findDependenciesForClass(shortclass));
       } catch (IOException e) {
         e.printStackTrace();
       }

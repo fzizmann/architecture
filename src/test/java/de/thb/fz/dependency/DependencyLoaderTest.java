@@ -11,7 +11,8 @@ public class DependencyLoaderTest {
 
   @Test
   public void generateClassList() throws Exception {
-    ArrayList<String> list = DependencyLoader.generateClassList(
+    DependencyLoader dependencyLoader = new DependencyLoader();
+    ArrayList<String> list = dependencyLoader.generateClassList(
         new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath())
     );
     String testClass = "C:\\Users\\Friedrich\\git\\masterarbeit\\target\\test-classes\\de\\thb\\fz\\dependency\\DependencyLoaderTest.class";
