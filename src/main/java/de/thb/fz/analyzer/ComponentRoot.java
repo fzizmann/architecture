@@ -1,10 +1,7 @@
 package de.thb.fz.analyzer;
 
 import de.thb.fz.dsl.Architecture;
-import de.thb.fz.dsl.Component;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class ComponentRoot {
 
@@ -16,14 +13,9 @@ public class ComponentRoot {
    * Die Liste der definierten Komponenten und wird aus der Architektur erstellt.
    */
   private ArrayList<ComponentNode> componentList;
-  /**
-   * Ein Zuordnung von Paket und Komponente
-   */
-  private Map<String, Component> packageMap;
 
   public ComponentRoot(Architecture architecture) {
-    componentList = new ArrayList<ComponentNode>();
-    this.packageMap = new HashMap<String, Component>();
+    componentList = new ArrayList<>();
     this.architecture = architecture;
   }
 
@@ -46,13 +38,5 @@ public class ComponentRoot {
 
   public void setComponentList(ArrayList<ComponentNode> componentList) {
     this.componentList = componentList;
-  }
-
-  public Map<String, Component> getPackageMap() {
-    return packageMap;
-  }
-
-  public void setPackageMap(Map<String, Component> packageMap) {
-    this.packageMap = packageMap;
   }
 }
