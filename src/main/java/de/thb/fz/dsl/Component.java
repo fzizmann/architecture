@@ -20,17 +20,20 @@ public class Component {
   private String type;
 
 
+  private ArrayList<Class> classes;
   private HashMap<Class, Class> definedConnections;
   private HashMap<Class, Class> connectioins;
   private HashMap<Class, Component> users;
-  private HashMap<Class, Component> used;
+  private HashMap<Class, Component> uses;
 
-  public Component(String componentName) {
-    this.structure = new ArrayList<String>();
-    this.interfaces = new ArrayList<Class>();
-    this.implementations = new ArrayList<Class>();
-    this.subComponents = new ArrayList<Component>();
+  private Component(String componentName) {
+    this.structure = new ArrayList<>();
+    this.interfaces = new ArrayList<>();
+    this.implementations = new ArrayList<>();
+    this.subComponents = new ArrayList<>();
     this.componentName = componentName;
+    this.classes = new ArrayList<>();
+    this.uses = new HashMap<>();
   }
 
   public static Component component(String ComponentName) {
@@ -77,4 +80,19 @@ public class Component {
     return subComponents;
   }
 
+  public ArrayList<Class> getClasses() {
+    return classes;
+  }
+
+  public void setClasses(ArrayList<Class> classes) {
+    this.classes = classes;
+  }
+
+  public HashMap<Class, Component> getUses() {
+    return uses;
+  }
+
+  public void setUses(HashMap<Class, Component> uses) {
+    this.uses = uses;
+  }
 }
