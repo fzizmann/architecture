@@ -4,11 +4,8 @@ import static de.thb.fz.dsl.Architecture.architecture;
 import static de.thb.fz.dsl.Component.component;
 
 import de.thb.fz.analyzer.ComponentIndex;
-import de.thb.fz.analyzer.ComponentRoot;
 import de.thb.fz.analyzer.builder.ComponentIndexBuilder;
-import de.thb.fz.analyzer.builder.ComponentRootBuilder;
 import de.thb.fz.dsl.Architecture;
-import de.thb.fz.output.GraphBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -109,9 +106,9 @@ public class ArchitectureTest {
     ComponentIndex componentIndex = new ComponentIndexBuilder(new DependencyLoader())
         .createComponentIndex(architecture);
 
-    ComponentRoot root = new ComponentRootBuilder(new DependencyLoader(), componentIndex)
-        .buildComponentRoot(this.architecture, "C:\\Users\\Friedrich\\Desktop\\junit\\");
-    
-    System.out.println(GraphBuilder.drawGraph(root));
+//    ComponentRoot root = new ComponentRootBuilder(new DependencyLoader(), componentIndex)
+//        .buildComponentRoot(this.architecture, "C:\\Users\\Friedrich\\Desktop\\junit\\");
+//
+//    System.out.println(GraphBuilder.drawGraph(root));
   }
 }

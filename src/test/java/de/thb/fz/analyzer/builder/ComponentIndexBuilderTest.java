@@ -28,7 +28,8 @@ public class ComponentIndexBuilderTest {
   public void testBuildComponentIndex() {
     ComponentIndexBuilder builder = new ComponentIndexBuilder(new DependencyLoader());
     ComponentIndex index = builder.createComponentIndex(this.architecture);
-    System.out.println("");
+    index.getComponentMap().forEach(
+        (aClass, component) -> System.out.println(aClass + " -> " + component.getComponentName()));
   }
 
 }

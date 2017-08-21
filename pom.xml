@@ -33,6 +33,7 @@
       <version>6.0_ALPHA</version>
     </dependency>
     <dependency>
+      <!-- wird vermutlich nicht mehr gebraucht -->
       <groupId>io.github.lukehutch</groupId>
       <artifactId>fast-classpath-scanner</artifactId>
       <version>LATEST</version>

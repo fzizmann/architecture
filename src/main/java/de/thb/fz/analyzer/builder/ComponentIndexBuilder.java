@@ -18,8 +18,8 @@ public class ComponentIndexBuilder {
     ComponentIndex componentIndex = new ComponentIndex();
     for (Component component : architecture.getComponents()) {
       for (String packageName : component.getStructure()) {
-        for (String className : dependencyLoader.generateClassList(packageName)) {
-          componentIndex.getComponentMap().put(className, component);
+        for (Class jClass : dependencyLoader.generateClassList(packageName)) {
+          componentIndex.getComponentMap().put(jClass, component);
         }
       }
     }

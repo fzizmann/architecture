@@ -2,6 +2,7 @@ package de.thb.fz.dsl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 
 public class Component {
@@ -15,7 +16,14 @@ public class Component {
   private ArrayList<Class> implementations;
 
   private ArrayList<Component> subComponents;
+
   private String type;
+
+
+  private HashMap<Class, Class> definedConnections;
+  private HashMap<Class, Class> connectioins;
+  private HashMap<Class, Component> users;
+  private HashMap<Class, Component> used;
 
   public Component(String componentName) {
     this.structure = new ArrayList<String>();
