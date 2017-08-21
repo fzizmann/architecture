@@ -22,8 +22,8 @@ public class Component {
 
   private ArrayList<Class> classes;
   private HashMap<Class, Class> definedConnections;
-  private HashMap<Class, Class> connectioins;
-  private HashMap<Class, Component> users;
+  private HashMap<Class, Class> connection;
+  private HashMap<Class, Component> used;
   private HashMap<Class, Component> uses;
 
   private Component(String componentName) {
@@ -34,6 +34,8 @@ public class Component {
     this.componentName = componentName;
     this.classes = new ArrayList<>();
     this.uses = new HashMap<>();
+    this.used = new HashMap<>();
+    this.connection = new HashMap<>();
   }
 
   public static Component component(String ComponentName) {
@@ -68,31 +70,19 @@ public class Component {
     return structure;
   }
 
-  public ArrayList<Class> getInterfaces() {
-    return interfaces;
-  }
-
-  public ArrayList<Class> getImplementations() {
-    return implementations;
-  }
-
-  public ArrayList<Component> getSubComponents() {
-    return subComponents;
-  }
-
   public ArrayList<Class> getClasses() {
     return classes;
-  }
-
-  public void setClasses(ArrayList<Class> classes) {
-    this.classes = classes;
   }
 
   public HashMap<Class, Component> getUses() {
     return uses;
   }
 
-  public void setUses(HashMap<Class, Component> uses) {
-    this.uses = uses;
+  public HashMap<Class, Component> getUsed() {
+    return used;
+  }
+
+  public HashMap<Class, Class> getConnection() {
+    return connection;
   }
 }

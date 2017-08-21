@@ -7,7 +7,9 @@ import de.thb.fz.analyzer.ComponentIndex;
 import de.thb.fz.analyzer.builder.ComponentBuilder;
 import de.thb.fz.analyzer.builder.ComponentIndexBuilder;
 import de.thb.fz.dsl.Architecture;
+import de.thb.fz.dsl.Component;
 import java.io.IOException;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -104,24 +106,28 @@ public class ArchitectureTest {
   }
 
   @Test
-  public void testLoader() {
+  public void testLoader() throws IOException, ClassNotFoundException {
     ComponentIndex componentIndex = new ComponentIndexBuilder(new DependencyLoader())
         .createComponentIndex(architecture);
 
     ComponentBuilder componentBuilder = new ComponentBuilder(new DependencyLoader(),
         componentIndex);
     componentBuilder.findComponentClasses(architecture);
-    try {
-      componentBuilder.findComponentUsages(architecture);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    componentBuilder.findComponentUsages(architecture);
 
 //    System.out.println(GraphBuilder.drawGraph(architecture));
 
-    architecture.getComponents()
-        .forEach(component -> component.getUses().forEach((aClass, component1) ->
-            System.out.println(component.getComponentName() + " -> " + aClass + " -> " + component1
-                .getComponentName())));
+    for (Component sourceComponent : architecture.getComponents()) {
+      for (Map.Entry<Class, Class> entry : sourceComponent.getConnection().entrySet()) {
+        if (sourceComponent.getUsed().get(entry.getKey()) != null) {
+          System.out.println(
+              sourceComponent.getComponentName() + " - " +
+                  entry.getKey() + " -> " +
+                  entry.getValue().getName() + " - " +
+                  sourceComponent.getUsed().get(entry.getKey()).getComponentName()
+          );
+        }
+      }
+    }
   }
 }

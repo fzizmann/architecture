@@ -29,6 +29,6 @@ public class DependencyLoader {
     new ClassReader(cls).accept(classVisitor, 0);
     Map<String, Integer> stringIntegerMap = classVisitor.getGlobals()
         .get(cls.replace('.', '/'));
-    return new ArrayList<String>(stringIntegerMap.keySet());
+    return new ArrayList<>(stringIntegerMap.keySet());
   }
 }
