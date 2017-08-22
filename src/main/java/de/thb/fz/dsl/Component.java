@@ -22,7 +22,7 @@ public class Component {
 
   private ArrayList<Class> classes;
   private HashMap<Class, Class> definedConnections;
-  private HashMap<Class, Class> connection;
+  private HashMap<Class, ArrayList<Class>> connection;
   private HashMap<Class, Component> used;
   private HashMap<Class, Component> uses;
 
@@ -82,7 +82,7 @@ public class Component {
     return used;
   }
 
-  public HashMap<Class, Class> getConnection() {
+  public HashMap<Class, ArrayList<Class>> getConnection() {
     return connection;
   }
 }

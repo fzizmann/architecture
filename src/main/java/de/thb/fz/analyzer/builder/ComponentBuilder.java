@@ -36,8 +36,8 @@ public class ComponentBuilder {
 
   public void findComponentUsages(Architecture architecture)
       throws IOException, ClassNotFoundException {
-    ArrayList<String> depList = new ArrayList<>();
     for (Component component : architecture.getComponents()) {
+      ArrayList<String> depList = new ArrayList<>();
       for (Class aClass : component.getClasses()) {
         depList.addAll(dependencyLoader.findDependenciesForClass(aClass.getName()));
         for (String dep : depList) {
@@ -45,7 +45,14 @@ public class ComponentBuilder {
           if (cp != null && !cp.getComponentName().equals(component.getComponentName())) {
             component.getUses().put(aClass, cp);
             component.getUsed().put(Class.forName(dep), cp);
-            component.getConnection().put(aClass, Class.forName(dep));
+            if (!component.getConnection().containsKey(aClass)) {
+              component.getConnection().put(aClass, new ArrayList<>());
+            } else {
+              ArrayList<Class> classes = component.getConnection().get(aClass);
+              if (!classes.contains(Class.forName(dep))) {
+                classes.add(Class.forName(dep));
+              }
+            }
           }
         }
       }

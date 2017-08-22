@@ -2,11 +2,13 @@ package de.thb.fz.dependency;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import org.objectweb.asm.ClassReader;
 import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.ResourcesScanner;
 
 public class DependencyLoader {
 
@@ -17,8 +19,17 @@ public class DependencyLoader {
    * @return Liste von Klassen
    */
   public Set<Class<?>> generateClassList(String packageName) {
-    return new Reflections(packageName, new SubTypesScanner(false))
-        .getSubTypesOf(Object.class);
+    Set<Class<?>> result = new HashSet<>();
+    Reflections reflections = new Reflections(packageName, new ResourcesScanner());
+    Set<String> resources = reflections.getResources(Pattern.compile(".*"));
+    resources.forEach(s -> {
+      try {
+        result.add(Class.forName(s.replace('/', '.').replace(".class", "")));
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
+    });
+    return result;
   }
 
   /**
