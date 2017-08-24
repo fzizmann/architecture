@@ -14,7 +14,7 @@ public class ComponentIndexBuilder {
     this.dependencyLoader = dependencyLoader;
   }
 
-  public ComponentIndex createComponentIndex(Architecture architecture) {
+  public ComponentIndex buildComponentIndex(Architecture architecture) {
     ComponentIndex componentIndex = new ComponentIndex();
     for (Component component : architecture.getComponents()) {
       for (String packageName : component.getStructure()) {

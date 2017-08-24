@@ -2,11 +2,8 @@ package de.thb.fz.analyzer.builder;
 
 import de.thb.fz.analyzer.ComponentIndex;
 import de.thb.fz.dependency.DependencyLoader;
-import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map.Entry;
+import java.util.HashSet;
 
 /**
  * Diese Klasse erstellt den Komponentenbaum mittels der Architektur.
@@ -22,53 +19,45 @@ public class ComponentBuilder {
     this.componentIndex = componentIndex;
   }
 
+  public void expandComponents() {
+    this.findComponentClasses();
+    this.findComponentUsages();
+  }
+
   /**
    * Komponenten werden um alle Klassen ergäntzt aus denen sie bestehen.
    */
-  public void findComponentClasses(Architecture architecture) {
-    for (Component component : architecture.getComponents()) {
-      for (String packageName : component.getStructure()) {
-        component.getClasses().addAll(
-            dependencyLoader.generateClassList(packageName));
-      }
-    }
-  }
-
-  public void findComponentUsages(Architecture architecture)
-      throws IOException, ClassNotFoundException {
-    for (Component component : architecture.getComponents()) {
-      ArrayList<String> depList = new ArrayList<>();
-      for (Class aClass : component.getClasses()) {
-        depList.addAll(dependencyLoader.findDependenciesForClass(aClass.getName()));
-        for (String dep : depList) {
-          Component cp = this.findComponentByPackage(dep);
-          if (cp != null && !cp.getComponentName().equals(component.getComponentName())) {
-            component.getUses().put(aClass, cp);
-            component.getUsed().put(Class.forName(dep), cp);
-            if (!component.getConnection().containsKey(aClass)) {
-              component.getConnection().put(aClass, new ArrayList<>());
-            } else {
-              ArrayList<Class> classes = component.getConnection().get(aClass);
-              if (!classes.contains(Class.forName(dep))) {
-                classes.add(Class.forName(dep));
-              }
-            }
-          }
-        }
-      }
-    }
+  private void findComponentClasses() {
+    componentIndex.getComponentMap().forEach((aClass, component) -> component.getStructure()
+        .forEach(packageName -> component.getClasses().addAll(
+            dependencyLoader.generateClassList(packageName))));
   }
 
   /**
-   * Sucht eine Componente anhand eines angegebenen Pakets.
+   * Komponentenklassen werden anhand ihrer Abhängikeiten zu anderen Komponenten aufgelöst.
    */
-  private Component findComponentByPackage(String packageName) {
-    for (Entry<Class, Component> entry : componentIndex.getComponentMap().entrySet()) {
-      if (packageName.startsWith(entry.getKey().getName())) {
-        return entry.getValue();
-      }
-    }
-    return null;
+  private void findComponentUsages() {
+    this.componentIndex.getComponentMap().forEach(
+        (aClass, component) -> this.dependencyLoader.findDependenciesForClass(aClass.getName())
+            .forEach(dependencyClass -> {
+              Component dependencyComponent = this.componentIndex.getComponentMap()
+                  .get(dependencyClass);
+              if (dependencyComponent != null && !dependencyComponent.equals(component)) {
+                component.getUsed().put(dependencyClass, dependencyComponent);
+
+                component.getUses().putIfAbsent(aClass, new HashSet<>());
+                component.getUses().computeIfPresent(aClass, (classKey, componentValues) -> {
+                  componentValues.add(dependencyComponent);
+                  return componentValues;
+                });
+
+                component.getConnection().putIfAbsent(aClass, new HashSet<>());
+                component.getConnection().computeIfPresent(aClass, (classKey, classes) -> {
+                  classes.add(dependencyClass);
+                  return classes;
+                });
+              }
+            }));
   }
 
 }

@@ -1,8 +1,6 @@
 package de.thb.fz.output;
 
 import de.thb.fz.dsl.Architecture;
-import de.thb.fz.dsl.Component;
-import java.util.Map;
 
 public class GraphBuilder {
 
@@ -12,13 +10,14 @@ public class GraphBuilder {
    */
   public static String drawGraph(Architecture architecture) {
 
-    StringBuilder graph = new StringBuilder("digraph junit { \n");
-    for (Component component : architecture.getComponents()) {
-      for (Map.Entry<Class, Component> usage : component.getUses().entrySet()) {
-        graph.append(component.getComponentName()).append(" -> ")
-            .append(usage.getValue().getComponentName()).append(";\n");
-      }
-    }
-    return graph.append("}").toString();
+//    StringBuilder graph = new StringBuilder("digraph junit { \n");
+//    for (Component component : architecture.getComponents()) {
+//      for (Map.Entry<Class, Component> usage : component.getUses().entrySet()) {
+//        graph.append(component.getComponentName()).append(" -> ")
+//            .append(usage.getValue().getComponentName()).append(";\n");
+//      }
+//    }
+//    return graph.append("}").toString();
+    return "";
   }
 }

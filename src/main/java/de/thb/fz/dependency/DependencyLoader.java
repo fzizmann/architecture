@@ -3,7 +3,6 @@ package de.thb.fz.dependency;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.objectweb.asm.ClassReader;
@@ -22,9 +21,11 @@ public class DependencyLoader {
     Set<Class<?>> result = new HashSet<>();
     Reflections reflections = new Reflections(packageName, new ResourcesScanner());
     Set<String> resources = reflections.getResources(Pattern.compile(".*"));
-    resources.forEach(s -> {
+    resources.forEach(className -> {
       try {
-        result.add(Class.forName(s.replace('/', '.').replace(".class", "")));
+        if (className.endsWith(".class")) {
+          result.add(Class.forName(className.replace('/', '.').replace(".class", "")));
+        }
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       }
@@ -35,11 +36,23 @@ public class DependencyLoader {
   /**
    * Lädt alle Äbhangigkeiten einer Klasse.
    */
-  public ArrayList<String> findDependenciesForClass(String cls) throws IOException {
+  public ArrayList<Class> findDependenciesForClass(String aClass) {
+
     DependencyVisitor classVisitor = new DependencyVisitor();
-    new ClassReader(cls).accept(classVisitor, 0);
-    Map<String, Integer> stringIntegerMap = classVisitor.getGlobals()
-        .get(cls.replace('.', '/'));
-    return new ArrayList<>(stringIntegerMap.keySet());
+    try {
+      new ClassReader(aClass).accept(classVisitor, 0);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    ArrayList<Class> classes = new ArrayList<>();
+    classVisitor.getGlobals().get(aClass.replace('.', '/')).forEach((s, integer) -> {
+      try {
+        classes.add(Class.forName(s));
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      }
+    });
+    return classes;
   }
 }
