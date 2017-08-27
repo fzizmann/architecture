@@ -1,6 +1,5 @@
 package de.thb.fz.dsl;
 
-import de.thb.fz.dsl.type.ComponentType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,50 +15,42 @@ public class Component {
   /**
    * Pakete in dieser Komponente
    */
-  private ArrayList<String> structure;
+  private ArrayList<String> structure = new ArrayList<>();
   /**
    * Angebotente Schnittstellen dieser Komponente
    */
-  private ArrayList<Class> interfaces;
+  private ArrayList<Class> interfaces = new ArrayList<>();
   /**
    * Implementierte dieser Komponente von anderen Komponenten.
    */
-  private ArrayList<Class> implementations;
+  private ArrayList<Class> implementations = new ArrayList<>();
   /**
    * Subkomponenten dieser Komponente.
    */
-  private ArrayList<Component> subComponents;
+  private ArrayList<Component> subComponents = new ArrayList<>();
   /**
    * Typ der Kopmonente.
    */
-  private ComponentType type;
+  private String type;
   /**
    * Klassen die in dier Komponente enthalten sind.
    */
-  private ArrayList<Class> classes;
+  private ArrayList<Class> classes = new ArrayList<>();
   /**
    * Eine Klasse aus diesem Paket nutzt die gemappten Klassen.
    */
-  private HashMap<Class, HashSet<Class>> connection;
+  private HashMap<Class, HashSet<Class>> connection = new HashMap<>();
   /**
    * Diese Klasse wird aus dieser Komponente genutzt.
    */
-  private HashMap<Class, Component> used;
+  private HashMap<Class, Component> used = new HashMap<>();
   /**
    * Diese Klasse nutzt Komponenten nutzt Klassen in der gemappten Komponente.
    */
-  private HashMap<Class, HashSet<Component>> uses;
+  private HashMap<Class, HashSet<Component>> uses = new HashMap<>();
 
   private Component(String componentName) {
-    this.structure = new ArrayList<>();
-    this.interfaces = new ArrayList<>();
-    this.implementations = new ArrayList<>();
-    this.subComponents = new ArrayList<>();
     this.componentName = componentName;
-    this.classes = new ArrayList<>();
-    this.uses = new HashMap<>();
-    this.used = new HashMap<>();
-    this.connection = new HashMap<>();
   }
 
   public static Component component(String ComponentName) {
@@ -86,7 +77,7 @@ public class Component {
     return this;
   }
 
-  public Component type(ComponentType type) {
+  public Component type(String type) {
     this.type = type;
     return this;
   }
@@ -121,6 +112,14 @@ public class Component {
 
   public ArrayList<Class> getImplementations() {
     return implementations;
+  }
+
+  public ArrayList<Component> getSubComponents() {
+    return subComponents;
+  }
+
+  public String getType() {
+    return type;
   }
 
   @Override

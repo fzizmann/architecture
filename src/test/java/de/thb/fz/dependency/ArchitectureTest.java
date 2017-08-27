@@ -8,7 +8,7 @@ import de.thb.fz.analyzer.builder.ComponentBuilder;
 import de.thb.fz.analyzer.builder.ComponentIndexBuilder;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
-import de.thb.fz.dsl.type.ComponentType;
+import de.thb.fz.style.Mvc;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
@@ -20,6 +20,7 @@ import org.junit.Test;
 public class ArchitectureTest {
 
   private Architecture architecture;
+  private ComponentIndex componentIndex;
 
   @Test
   public void connectionTest() {
@@ -29,6 +30,7 @@ public class ArchitectureTest {
           if (component.getConnection().containsKey(aClass)) {
             component.getConnection().get(aClass).forEach(usedClass -> {
               if (component.getUsed().get(usedClass).getInterfaces().contains(usedClass)) {
+                //diese Zeilen werden ausgeführt, falls eine implementierung ein interface benutzt
                 System.out.println("Erfolg");
               }
             });
@@ -37,8 +39,22 @@ public class ArchitectureTest {
   }
 
   @Test
+  public void componentTest() {
+    this.componentIndex.getComponentMap().values().stream().distinct()
+        .forEach(component -> System.out.println(component.getComponentName()));
+  }
+
+  @Test
+  public void styleTest() {
+    this.architecture.getStyles().forEach(style -> style.validate(componentIndex).forEach(
+        styleViolation -> System.out
+            .println(styleViolation.getViolationMessage() + System.lineSeparator())
+    ));
+  }
+
+  @Test
   public void printWeights() {
-    architecture.getComponents().forEach(component -> {
+    this.componentIndex.getComponentMap().values().stream().distinct().forEach(component -> {
       //algorithm to find weights
       HashMap<Component, Integer> targetUsageCount = new HashMap<>();
       for (Entry<Class, Component> entry : component.getUsed().entrySet()) {
@@ -84,13 +100,13 @@ public class ArchitectureTest {
         component("extensions")
             .structure(
                 "junit.extensions"
-            ).implementations(ActiveTestSuite.class)
+            ).type(Mvc.VIEW)
+            .implementations(ActiveTestSuite.class)
         , component("framework")
             .structure(
                 "junit.framework"
-            )
+            ).type(Mvc.CONTROLLER)
             .interfaces(junit.framework.Test.class)
-            .type(ComponentType.MODEL)
         , component("runner")
             .structure(
                 "junit.runner"
@@ -102,69 +118,73 @@ public class ArchitectureTest {
         , component("org")
             .structure(
                 "org.junit"
+            ).type(Mvc.VIEW)
+            .subComponents(
+                component("experimental")
+                    .structure(
+                        "org.junit.experimental"
+                    )
+                , component("internal")
+                    .structure(
+                        "org.junit.internal"
+                    ).type(Mvc.MODEL)
+                , component("matchers")
+                    .structure(
+                        "org.junit.matchers"
+                    )
+                , component("rules")
+                    .structure(
+                        "org.junit.rules"
+                    )
+                , component("orgRunner")
+                    .structure(
+                        "org.junit.runner"
+                    )
+                , component("runners")
+                    .structure(
+                        "org.junit.runners"
+                    )
+                , component("validator")
+                    .structure(
+                        "org.junit.validator"
+                    )
+                , component("orgRunnerManipulation")
+                    .structure(
+                        "org.junit.runner.manipulation"
+                    )
+                , component("orgRunnerNotification")
+                    .structure(
+                        "org.junit.runner.notification"
+                    )
+                , component("runnersModel")
+                    .structure(
+                        "org.junit.runners.model"
+                    )
+                , component("runnersParameterized")
+                    .structure(
+                        "org.junit.runners.parameterized"
+                    )
+                , component("internalBuilders")
+                    .structure(
+                        "org.junit.internal.builders"
+                    )
+                , component("internalsMatchers")
+                    .structure(
+                        "org.junit.internal.matchers"
+                    )
+                , component("internalRequests")
+                    .structure(
+                        "org.junit.internal.requests"
+                    )
+                , component("internalRunners")
+                    .structure(
+                        "org.junit.internal.runners"
+                    )
             )
-        , component("experimental")
-            .structure(
-                "org.junit.experimental"
-            )
-        , component("internal")
-            .structure(
-                "org.junit.internal"
-            )
-        , component("matchers")
-            .structure(
-                "org.junit.matchers"
-            )
-        , component("rules")
-            .structure(
-                "org.junit.rules"
-            )
-        , component("orgRunner")
-            .structure(
-                "org.junit.runner"
-            )
-        , component("runners")
-            .structure(
-                "org.junit.runners"
-            )
-        , component("validator")
-            .structure(
-                "org.junit.validator"
-            )
-        , component("orgRunnerManipulation")
-            .structure(
-                "org.junit.runner.manipulation"
-            )
-        , component("orgRunnerNotification")
-            .structure(
-                "org.junit.runner.notification"
-            )
-        , component("runnersModel")
-            .structure(
-                "org.junit.runners.model"
-            )
-        , component("runnersParameterized")
-            .structure(
-                "org.junit.runners.parameterized"
-            )
-        , component("internalBuilders")
-            .structure(
-                "org.junit.internal.builders"
-            )
-        , component("internalsMatchers")
-            .structure(
-                "org.junit.internal.matchers"
-            )
-        , component("internalRequests")
-            .structure(
-                "org.junit.internal.requests"
-            )
-        , component("internalRunners")
-            .structure(
-                "org.junit.internal.runners"
-            )
+    ).styles(
+        new Mvc()
     );
-    ComponentIndex componentIndex = new ComponentIndexBuilder(new DependencyLoader())
+    this.componentIndex = new ComponentIndexBuilder(new DependencyLoader())
         .buildComponentIndex(architecture);
 
     //schauen was man hier noch machen kann

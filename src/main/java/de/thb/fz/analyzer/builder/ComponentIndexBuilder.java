@@ -16,14 +16,21 @@ public class ComponentIndexBuilder {
 
   public ComponentIndex buildComponentIndex(Architecture architecture) {
     ComponentIndex componentIndex = new ComponentIndex();
-    for (Component component : architecture.getComponents()) {
-      for (String packageName : component.getStructure()) {
-        for (Class jClass : dependencyLoader.generateClassList(packageName)) {
-          componentIndex.getComponentMap().put(jClass, component);
-        }
-      }
-    }
+
+    architecture.getComponents().forEach(component ->
+        this.findSubComponents(component, componentIndex));
+
     return componentIndex;
+  }
+
+
+  private void findSubComponents(Component component, ComponentIndex componentIndex) {
+    component.getSubComponents()
+        .forEach(subComponent -> this.findSubComponents(subComponent, componentIndex));
+
+    component.getStructure().forEach(packageName ->
+        dependencyLoader.generateClassList(packageName).forEach(jClass ->
+            componentIndex.getComponentMap().putIfAbsent(jClass, component)));
   }
 
 
