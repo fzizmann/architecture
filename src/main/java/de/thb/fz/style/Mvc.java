@@ -1,6 +1,6 @@
 package de.thb.fz.style;
 
-import de.thb.fz.analyzer.ComponentIndex;
+import de.thb.fz.dsl.Architecture;
 import java.util.ArrayList;
 
 public class Mvc implements Style {
@@ -9,9 +9,9 @@ public class Mvc implements Style {
   public static final String MODEL = "model";
   public static final String CONTROLLER = "controller";
 
-  public ArrayList<StyleViolation> validate(ComponentIndex componentIndex) {
+  public ArrayList<StyleViolation> validate(Architecture architecture) {
     ArrayList<StyleViolation> violations = new ArrayList<>();
-    componentIndex.getComponentMap().values().stream().distinct().forEach(
+    architecture.getComponentIndex().values().stream().distinct().forEach(
         component -> component.getUsed().values().stream().distinct().forEach(usedComponent -> {
           //Verletzung liegt vor wenn Model auf Controller zugreift oder VIEW auf etwas anderes als View
           if (component.getType() != null && usedComponent.getType() != null) {

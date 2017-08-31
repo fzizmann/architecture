@@ -13,7 +13,6 @@ public class DependencyLoaderTest {
   @Test
   public void reflectiveClassList() throws Exception {
     Reflections reflections = new Reflections("junit.extensions", new ResourcesScanner());
-//    Set<Class<?>> subTypes = reflections.getSubTypesOf(Object.class);
     Set<String> test = reflections.getResources(Pattern.compile(".*"));
     test.forEach(s -> {
       try {

@@ -1,34 +1,34 @@
-package de.thb.fz.analyzer.builder;
+package de.thb.fz.dsl.builder;
 
-import de.thb.fz.analyzer.ComponentIndex;
 import de.thb.fz.dependency.DependencyLoader;
+import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
  * Diese Klasse erstellt den Komponentenbaum mittels der Architektur.
  */
-public class ComponentBuilder {
+public class ArchitectureBuilder {
 
   private DependencyLoader dependencyLoader;
-  private ComponentIndex componentIndex;
 
-  public ComponentBuilder(DependencyLoader dependencyLoader,
-      ComponentIndex componentIndex) {
+  public ArchitectureBuilder(DependencyLoader dependencyLoader) {
     this.dependencyLoader = dependencyLoader;
-    this.componentIndex = componentIndex;
   }
 
-  public void expandComponents() {
-    this.findComponentClasses();
-    this.findComponentUsages();
+  public Architecture accumulateArchitecture(Architecture architecture) {
+    this.buildComponentIndex(architecture);
+    this.findComponentClasses(architecture);
+    this.findComponentUsages(architecture);
+    return architecture;
   }
 
   /**
    * Komponenten werden um alle Klassen ergäntzt aus denen sie bestehen.
    */
-  private void findComponentClasses() {
-    componentIndex.getComponentMap().forEach((aClass, component) -> component.getStructure()
+  private void findComponentClasses(Architecture architecture) {
+    architecture.getComponentIndex().forEach((aClass, component) -> component.getStructure()
         .forEach(packageName -> component.getClasses().addAll(
             dependencyLoader.generateClassList(packageName))));
   }
@@ -36,12 +36,11 @@ public class ComponentBuilder {
   /**
    * Komponentenklassen werden anhand ihrer Abhängikeiten zu anderen Komponenten aufgelöst.
    */
-  private void findComponentUsages() {
-    this.componentIndex.getComponentMap().forEach(
+  private void findComponentUsages(Architecture architecture) {
+    architecture.getComponentIndex().forEach(
         (aClass, component) -> this.dependencyLoader.findDependenciesForClass(aClass.getName())
             .forEach(dependencyClass -> {
-              Component dependencyComponent = this.componentIndex.getComponentMap()
-                  .get(dependencyClass);
+              Component dependencyComponent = architecture.getComponentIndex().get(dependencyClass);
               if (dependencyComponent != null && !dependencyComponent.equals(component)) {
                 component.getUsed().put(dependencyClass, dependencyComponent);
 
@@ -58,6 +57,26 @@ public class ComponentBuilder {
                 });
               }
             }));
+  }
+
+
+  private void buildComponentIndex(Architecture architecture) {
+    HashMap<Class, Component> componentIndex = new HashMap<>();
+
+    architecture.getComponents().forEach(component ->
+        this.findSubComponents(component, componentIndex));
+
+    architecture.setComponentIndex(componentIndex);
+  }
+
+
+  private void findSubComponents(Component component, HashMap<Class, Component> componentIndex) {
+    component.getSubComponents()
+        .forEach(subComponent -> this.findSubComponents(subComponent, componentIndex));
+
+    component.getStructure().forEach(packageName ->
+        dependencyLoader.generateClassList(packageName).forEach(jClass ->
+            componentIndex.putIfAbsent(jClass, component)));
   }
 
 }

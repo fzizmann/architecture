@@ -3,15 +3,34 @@ package de.thb.fz.dsl;
 import de.thb.fz.style.Style;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Architecture {
 
+  /**
+   * Komponenten in dieser Architektur
+   */
   private ArrayList<Component> components;
+  /**
+   * In der Architektur werwendete Stile
+   */
   private ArrayList<Style> styles;
+  /**
+   * Ein Zuordnung von allen Klassennamen und Komponenten
+   */
+  private HashMap<Class, Component> componentIndex;
 
   private Architecture() {
     this.components = new ArrayList<>();
     this.styles = new ArrayList<>();
+  }
+
+  public HashMap<Class, Component> getComponentIndex() {
+    return componentIndex;
+  }
+
+  public void setComponentIndex(HashMap<Class, Component> componentIndex) {
+    this.componentIndex = componentIndex;
   }
 
   public ArrayList<Component> getComponents() {
