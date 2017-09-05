@@ -17,11 +17,10 @@ public class ArchitectureBuilder {
     this.dependencyLoader = dependencyLoader;
   }
 
-  public Architecture accumulateArchitecture(Architecture architecture) {
+  public void accumulateArchitecture(Architecture architecture) {
     this.buildComponentIndex(architecture);
     this.findComponentClasses(architecture);
     this.findComponentUsages(architecture);
-    return architecture;
   }
 
   /**

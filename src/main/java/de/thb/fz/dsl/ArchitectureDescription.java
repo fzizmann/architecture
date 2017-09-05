@@ -5,6 +5,6 @@ public interface ArchitectureDescription {
   /**
    * Definition der Architektur
    */
-  public Architecture defineArchitecture();
+  Architecture defineArchitecture();
 
 }

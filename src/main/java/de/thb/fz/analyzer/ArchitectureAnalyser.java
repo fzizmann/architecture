@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 public class ArchitectureAnalyser {
 
   public void analyzeInterfaceAndImplementation(Architecture architecture) {
-    architecture.getComponents()
-        .forEach(component -> component.getImplementations().forEach(aClass -> {
+    architecture.getComponents().forEach(
+        component -> component.getImplementations().forEach(aClass -> {
           //wenn Implementations Klasse in dieser Komponente vorhanden ist.
           if (component.getConnection().containsKey(aClass)) {
             component.getConnection().get(aClass).forEach(usedClass -> {
@@ -35,7 +35,9 @@ public class ArchitectureAnalyser {
                 )));
   }
 
+
   public void analyzeStyle(Architecture architecture) {
+    //TODO Architekturstile umbauen, Regeln und Beziehungen als DSL schreiben
     architecture.getStyles().forEach(style -> style.validate(architecture).forEach(
         styleViolation -> System.out
             .println(styleViolation.getViolationMessage() + System.lineSeparator())
@@ -44,21 +46,8 @@ public class ArchitectureAnalyser {
 
   public void analyzeWeights(Architecture architecture) {
     architecture.getComponentIndex().values().stream().distinct().forEach(component -> {
-      //algorithm to find weights
-      HashMap<Component, Integer> targetUsageCount = new HashMap<>();
-      for (Entry<Class, Component> entry : component.getUsed().entrySet()) {
-        targetUsageCount.putIfAbsent(entry.getValue(), 0);
-        targetUsageCount.computeIfPresent(entry.getValue(),
-            (key, val) -> ++val);
-      }
-      HashMap<Component, Integer> sourceUsageCount = new HashMap<>();
-      for (Entry<Class, HashSet<Component>> entry : component.getUses().entrySet()) {
-        entry.getValue().forEach(multiComponent -> {
-          sourceUsageCount.putIfAbsent(multiComponent, 0);
-          sourceUsageCount.computeIfPresent(multiComponent,
-              (key, val) -> ++val);
-        });
-      }
+      HashMap<Component, Integer> targetUsageCount = calculateSourceWeight(component);
+      HashMap<Component, Integer> sourceUsageCount = calculateTargetWeight(component);
 
       //TODO save weights
       targetUsageCount.forEach((targetComponent, integer) -> System.out.println(
@@ -68,6 +57,28 @@ public class ArchitectureAnalyser {
               targetComponent
       ));
     });
+  }
+
+  private HashMap<Component, Integer> calculateTargetWeight(Component component) {
+    HashMap<Component, Integer> sourceUsageCount = new HashMap<>();
+    for (Entry<Class, HashSet<Component>> entry : component.getUses().entrySet()) {
+      entry.getValue().forEach(multiComponent -> {
+        sourceUsageCount.putIfAbsent(multiComponent, 0);
+        sourceUsageCount.computeIfPresent(multiComponent,
+            (key, val) -> ++val);
+      });
+    }
+    return sourceUsageCount;
+  }
+
+  private HashMap<Component, Integer> calculateSourceWeight(Component component) {
+    HashMap<Component, Integer> targetUsageCount = new HashMap<>();
+    for (Entry<Class, Component> entry : component.getUsed().entrySet()) {
+      targetUsageCount.putIfAbsent(entry.getValue(), 0);
+      targetUsageCount.computeIfPresent(entry.getValue(),
+          (key, val) -> ++val);
+    }
+    return targetUsageCount;
   }
 
 
