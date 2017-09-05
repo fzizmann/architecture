@@ -30,7 +30,7 @@
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>6.0_ALPHA</version>
+      <version>5.0.4</version>
     </dependency>
     <dependency>
       <!-- wird vermutlich nicht mehr gebraucht -->
