@@ -1,6 +1,7 @@
 package de.thb.fz.dependency;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,13 +41,17 @@ public class DependencyLoader {
 
     DependencyVisitor classVisitor = new DependencyVisitor();
     try {
-      new ClassReader(aClass).accept(classVisitor, 0);
+      InputStream stream = this.getClass().getClassLoader()
+          .getResourceAsStream(aClass.replace('.', '/') + ".class");
+      ClassReader classReader = new ClassReader(stream);
+      classReader.accept(classVisitor, 0);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
     ArrayList<Class> classes = new ArrayList<>();
-    classVisitor.getGlobals().get(aClass.replace('.', '/')).forEach((s, integer) -> {
+    String replace = aClass.replace('.', '/');
+    classVisitor.getGlobals().get(replace).forEach((s, integer) -> {
       try {
         classes.add(Class.forName(s));
       } catch (ClassNotFoundException e) {

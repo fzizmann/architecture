@@ -2,13 +2,15 @@ package de.thb.fz.analyzer;
 
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
 
 public class ArchitectureAnalyser {
 
-  public void analyzeInterfaceAndImplementation(Architecture architecture) {
+  public ArrayList<String> analyzeInterfaceAndImplementation(Architecture architecture) {
+    final ArrayList<String> result = new ArrayList<>();
     architecture.getComponents().forEach(
         component -> component.getImplementations().forEach(aClass -> {
           //wenn Implementations Klasse in dieser Komponente vorhanden ist.
@@ -16,47 +18,53 @@ public class ArchitectureAnalyser {
             component.getConnection().get(aClass).forEach(usedClass -> {
               if (component.getUsed().get(usedClass).getInterfaces().contains(usedClass)) {
                 //diese Zeilen werden ausgeführt, falls eine implementierung ein interface benutzt
-                System.out.println("Erfolg");
+                result.add("Erfolg");
               }
             });
           }
         }));
+    return result;
   }
 
-  public void analyzeConnection(Architecture architecture) {
+  public ArrayList<String> analyzeConnection(Architecture architecture) {
+    final ArrayList<String> result = new ArrayList<>();
     architecture.getComponents().forEach(
         sourceComponent -> sourceComponent.getConnection()
             .forEach((key, value) ->
                 //TODO speichern in Datenstruktur
-                System.out.println(
+                result.add(
                     sourceComponent.getComponentName() + " - " +
                         key + " -> " +
                         value.toString()
                 )));
+    return result;
   }
 
 
-  public void analyzeStyle(Architecture architecture) {
+  public ArrayList<String> analyzeStyle(Architecture architecture) {
+    final ArrayList<String> result = new ArrayList<>();
     //TODO Architekturstile umbauen, Regeln und Beziehungen als DSL schreiben
     architecture.getStyles().forEach(style -> style.validate(architecture).forEach(
-        styleViolation -> System.out
-            .println(styleViolation.getViolationMessage() + System.lineSeparator())
+        styleViolation -> result.add(styleViolation.getViolationMessage() + System.lineSeparator())
     ));
+    return result;
   }
 
-  public void analyzeWeights(Architecture architecture) {
+  public ArrayList<String> analyzeWeights(Architecture architecture) {
+    final ArrayList<String> result = new ArrayList<>();
     architecture.getComponentIndex().values().stream().distinct().forEach(component -> {
       HashMap<Component, Integer> targetUsageCount = calculateSourceWeight(component);
       HashMap<Component, Integer> sourceUsageCount = calculateTargetWeight(component);
 
       //TODO save weights
-      targetUsageCount.forEach((targetComponent, integer) -> System.out.println(
+      targetUsageCount.forEach((targetComponent, integer) -> result.add(
           component.getComponentName() + " -> " +
               sourceUsageCount.get(targetComponent) + " -> " +
               targetUsageCount.get(targetComponent) + " -> " +
               targetComponent
       ));
     });
+    return result;
   }
 
   private HashMap<Component, Integer> calculateTargetWeight(Component component) {

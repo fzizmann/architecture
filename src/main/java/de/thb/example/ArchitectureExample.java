@@ -17,16 +17,16 @@ public class ArchitectureExample implements ArchitectureDescription {
     return architecture(
         component("model")
             .structure(
-                "de.app.model"
+                "de.thb.fz.analyzer"
             ).type(Mvc.MODEL)
         , component("controller")
             .structure(
-                "de.app.controller"
+                "de.thb.fz.dsl"
             )
             .type(Mvc.CONTROLLER)
         , component("view")
             .structure(
-                "de.app.view"
+                "de.thb.fz.style"
             ).type(Mvc.VIEW)
     ).styles(
         new Mvc()
