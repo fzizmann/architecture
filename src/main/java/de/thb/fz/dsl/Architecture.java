@@ -1,6 +1,6 @@
 package de.thb.fz.dsl;
 
-import de.thb.fz.style.Style;
+import de.thb.fz.style.pattern.Style;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;

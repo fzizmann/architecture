@@ -5,7 +5,7 @@ import static de.thb.fz.dsl.Component.component;
 
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.ArchitectureDescription;
-import de.thb.fz.style.Mvc;
+import de.thb.fz.style.pattern.Mvc;
 
 /**
  * Beispieldefinition einer Architektur
@@ -14,6 +14,7 @@ public class ArchitectureExample implements ArchitectureDescription {
 
   @Override
   public Architecture defineArchitecture() {
+
     return architecture(
         component("model")
             .structure(
