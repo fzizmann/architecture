@@ -11,6 +11,11 @@ public class SubComponentRule implements Rule {
     return this;
   }
 
+  public static Rule isSubComponentOf() {
+    return new SubComponentRule();
+
+  }
+
   @Override
   public ArrayList<Violation> execute(Architecture architecture) {
     return null;

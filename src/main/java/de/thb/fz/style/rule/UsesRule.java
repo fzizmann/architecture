@@ -6,9 +6,17 @@ import java.util.ArrayList;
 
 public class UsesRule implements Rule {
 
-  public Rule uses(String typeA, String typeB) {
+  private String typeA;
+  private String typeB;
 
-    return this;
+  public UsesRule(String typeA, String typeB) {
+    this.typeA = typeA;
+    this.typeB = typeB;
+  }
+
+  public static Rule uses(String typeA, String typeB) {
+
+    return new UsesRule(typeA, typeB);
   }
 
   @Override
