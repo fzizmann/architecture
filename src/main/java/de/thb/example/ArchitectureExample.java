@@ -30,11 +30,10 @@ public class ArchitectureExample implements ArchitectureDescription {
                 "de.thb.fz.style"
             ).type(Mvc.VIEW)
     ).styles(
-
         new Mvc()
     ).rules(
         UsesRule.uses("View", "MOdel"),
-        SubComponentRule.isSubComponentOf()
+        SubComponentRule.subComponentOf()
     );
   }
 }

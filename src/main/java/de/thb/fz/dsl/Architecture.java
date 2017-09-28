@@ -28,6 +28,7 @@ public class Architecture {
   private Architecture() {
     this.components = new ArrayList<>();
     this.styles = new ArrayList<>();
+    this.rules = new ArrayList<>();
   }
 
   public HashMap<Class, Component> getComponentIndex() {

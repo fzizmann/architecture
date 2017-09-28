@@ -11,7 +11,7 @@ public class SubComponentRule implements Rule {
     return this;
   }
 
-  public static Rule isSubComponentOf() {
+  public static Rule subComponentOf() {
     return new SubComponentRule();
 
   }
