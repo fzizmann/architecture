@@ -66,7 +66,11 @@ public class Architecture {
     return styles;
   }
 
-  public void setStyles(ArrayList<Style> styles) {
-    this.styles = styles;
+  public ArrayList<Rule> getRules() {
+    return rules;
+  }
+
+  public void setRules(ArrayList<Rule> rules) {
+    this.rules = rules;
   }
 }

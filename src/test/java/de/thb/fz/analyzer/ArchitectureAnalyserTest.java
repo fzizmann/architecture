@@ -4,6 +4,7 @@ import de.thb.example.ArchitectureExample;
 import de.thb.fz.dependency.DependencyLoader;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.builder.ArchitectureBuilder;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,12 +22,21 @@ public class ArchitectureAnalyserTest {
 
   @Test
   public void analyzeInterfaceAndImplementation() throws Exception {
-    architectureAnalyser.analyzeInterfaceAndImplementation(architecture);
+    architectureAnalyser.analyzeInterfaceAndImplementation(architecture)
+        .forEach(System.out::println);
   }
 
   @Test
-  public void analyzeConnection() throws Exception {
-    architectureAnalyser.analyzeConnection(architecture);
+  public void analyzeUnusedInterfaces() throws Exception {
+    architectureAnalyser.analyzeUnusedInterfaces(architecture)
+        .forEach(System.out::println);
+  }
+
+  @Test
+  public void analyzeUndefinedClasses() throws Exception {
+    architectureAnalyser.analyzeUndefinedClasses(architecture,
+        new ArrayList<>(new DependencyLoader().generateClassList("de.thb")))
+        .forEach(System.out::println);
   }
 
   @Test

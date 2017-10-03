@@ -19,6 +19,8 @@ public class ArchitectureMojo extends AbstractMojo {
 
   @Parameter(property = "architectureClass", required = true)
   private String architectureClass;
+  @Parameter(property = "baseDir", required = true)
+  private String baseDir;
 
   public void execute() throws MojoExecutionException {
     ArchitectureAnalyser architectureAnalyser = new ArchitectureAnalyser();
@@ -28,14 +30,12 @@ public class ArchitectureMojo extends AbstractMojo {
       if (objectInstance instanceof ArchitectureDescription) {
         Architecture architecture = ((ArchitectureDescription) objectInstance).defineArchitecture();
         new ArchitectureBuilder(new DependencyLoader()).accumulateArchitecture(architecture);
+
         architectureAnalyser.analyzeInterfaceAndImplementation(architecture).forEach(
-            s -> getLog().info(s)
-        );
-        architectureAnalyser.analyzeConnection(architecture).forEach(
-            s -> getLog().info(s)
+            architectureViolation -> getLog().info(architectureViolation.toString())
         );
         architectureAnalyser.analyzeStyle(architecture).forEach(
-            s -> getLog().info(s)
+            patternViolation -> getLog().info(patternViolation.getViolationMessage())
         );
         architectureAnalyser.analyzeWeights(architecture).forEach(
             s -> getLog().info(s)

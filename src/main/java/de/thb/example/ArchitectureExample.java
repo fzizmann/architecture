@@ -6,8 +6,10 @@ import static de.thb.fz.dsl.Component.component;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.ArchitectureDescription;
 import de.thb.fz.style.pattern.Mvc;
+import de.thb.fz.style.pattern.PatternViolation;
 import de.thb.fz.style.rule.SubComponentRule;
 import de.thb.fz.style.rule.UsesRule;
+import de.thb.fz.violation.Violation;
 
 /**
  * Beispieldefinition einer Architektur
@@ -17,23 +19,21 @@ public class ArchitectureExample implements ArchitectureDescription {
   @Override
   public Architecture defineArchitecture() {
     return architecture(
-        component("model")
+        component("violation")
             .structure(
-                "de.thb.fz.analyzer"
-            ).type(Mvc.MODEL)
-        , component("controller")
-            .structure(
-                "de.thb.fz.dsl"
-            ).type(Mvc.CONTROLLER)
-        , component("view")
+                "de.thb.fz.violation"
+            )
+            .interfaces(Violation.class)
+        , component("style")
             .structure(
                 "de.thb.fz.style"
-            ).type(Mvc.VIEW)
+            )
+            .implementations(PatternViolation.class)
     ).styles(
         new Mvc()
     ).rules(
-        UsesRule.uses("View", "MOdel"),
-        SubComponentRule.subComponentOf()
+        UsesRule.uses("View", "Model"),
+        SubComponentRule.subComponentOf("ComponentOne", "ComponentOne")
     );
   }
 }

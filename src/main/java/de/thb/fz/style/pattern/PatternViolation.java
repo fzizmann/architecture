@@ -6,7 +6,7 @@ public class PatternViolation implements Violation {
 
   private String violationMessage;
 
-  PatternViolation(String violationMessage) {
+  public PatternViolation(String violationMessage) {
     this.violationMessage = violationMessage;
   }
 

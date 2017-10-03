@@ -11,13 +11,14 @@ public class SubComponentRule implements Rule {
     return this;
   }
 
-  public static Rule subComponentOf() {
+  public static Rule subComponentOf(String superComponentType, String subComponentType) {
     return new SubComponentRule();
 
   }
 
   @Override
   public ArrayList<Violation> execute(Architecture architecture) {
+    //TODO implement
     return null;
   }
 }

@@ -8,6 +8,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <architectureClass>de.thb.example.ArchitectureExample</architectureClass>
+    <baseDir>${basedir}\src\main\java</baseDir>
   </properties>
   <groupId>de.fz</groupId>
   <artifactId>architecture-maven-plugin</artifactId>

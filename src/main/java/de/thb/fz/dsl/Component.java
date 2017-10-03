@@ -37,7 +37,8 @@ public class Component {
    */
   private ArrayList<Class> classes = new ArrayList<>();
   /**
-   * Eine Klasse aus diesem Paket nutzt die gemappten Klassen.
+   * Eine Klasse aus diesem Paket nutzt die gemappten Klassen. Die gemappten Klassen befinden sich
+   * in anderen Komponenten, selbstreferenzen sind nicht abgebildet.
    */
   private HashMap<Class, HashSet<Class>> connection = new HashMap<>();
   /**
@@ -45,7 +46,7 @@ public class Component {
    */
   private HashMap<Class, Component> used = new HashMap<>();
   /**
-   * Diese Klasse nutzt Komponenten nutzt Klassen in der gemappten Komponente.
+   * Diese Klasse nutzt Komponenten in der gemappten Komponente.
    */
   private HashMap<Class, HashSet<Component>> uses = new HashMap<>();
 
