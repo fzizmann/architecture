@@ -8,7 +8,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <architectureClass>de.thb.fz.example.ArchitectureExample</architectureClass>
-    <baseDir>de.thb.fz</baseDir>
+    <basePackage>de.thb.fz</basePackage>
   </properties>
   <groupId>de.thb.fz</groupId>
   <artifactId>architecture-maven-plugin</artifactId>
@@ -70,7 +70,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>de.fz</groupId>
+        <groupId>de.thb.fz</groupId>
         <artifactId>architecture-maven-plugin</artifactId>
         <version>1.0-SNAPSHOT</version>
         <executions>

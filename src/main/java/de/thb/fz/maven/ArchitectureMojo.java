@@ -18,8 +18,8 @@ public class ArchitectureMojo extends AbstractMojo {
 
   @Parameter(property = "architectureClass", required = true)
   private String architectureClass;
-  @Parameter(property = "baseDir", required = true)
-  private String baseDir;
+  @Parameter(property = "basePackage", required = true)
+  private String basePackage;
   @Parameter(property = "strictInterface", required = false)
   private boolean strictInterface = false;
 
@@ -48,7 +48,7 @@ public class ArchitectureMojo extends AbstractMojo {
         getLog().info("");
         getLog().info("Nicht definierte Klassen:");
         getLog().info("");
-        Set<Class<?>> classes = new DependencyLoader().generateClassList(this.baseDir);
+        Set<Class<?>> classes = new DependencyLoader().generateClassList(this.basePackage);
         architectureAnalyser.analyzeUndefinedClasses(architecture, new ArrayList<>(classes))
             .forEach(
                 unusedInterfaceViolation -> getLog().info(unusedInterfaceViolation.toString())
@@ -61,12 +61,15 @@ public class ArchitectureMojo extends AbstractMojo {
             ruleViolation -> getLog().info(ruleViolation.getViolationMessage())
         );
 
+        getLog().info("");
+        getLog().info("Stilverletzungen:");
+        getLog().info("");
         architectureAnalyser.analyzeStyle(architecture).forEach(
             styleViolation -> getLog().info(styleViolation.getViolationMessage())
         );
 
         getLog().info("");
-        getLog().info("Stilverletzungen:");
+        getLog().info("Graphiz-Architekturdefinition:");
         getLog().info("");
         getLog().info(architectureAnalyser.analyzeWeights(architecture));
 
