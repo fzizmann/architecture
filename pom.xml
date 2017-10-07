@@ -7,8 +7,8 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <architectureClass>de.thb.fz.example.ArchitectureExample</architectureClass>
-    <basePackage>de.thb.fz</basePackage>
+    <!--<architectureClass>de.thb.fz.example.ArchitectureExample</architectureClass>-->
+    <!--<basePackage>de.thb.fz</basePackage>-->
   </properties>
   <groupId>de.thb.fz</groupId>
   <artifactId>architecture-maven-plugin</artifactId>
@@ -69,19 +69,19 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>de.thb.fz</groupId>
-        <artifactId>architecture-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <phase>test</phase>
-            <goals>
-              <goal>analyze</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+      <!--<plugin>-->
+      <!--<groupId>de.thb.fz</groupId>-->
+      <!--<artifactId>architecture-maven-plugin</artifactId>-->
+      <!--<version>1.0-SNAPSHOT</version>-->
+      <!--<executions>-->
+      <!--<execution>-->
+      <!--<phase>test</phase>-->
+      <!--<goals>-->
+      <!--<goal>analyze</goal>-->
+      <!--</goals>-->
+      <!--</execution>-->
+      <!--</executions>-->
+      <!--</plugin>-->
     </plugins>
   </build>
 </project>
