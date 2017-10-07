@@ -32,7 +32,7 @@ public class ArchitectureExample implements ArchitectureDescription {
     ).styles(
         new Mvc()
     ).rules(
-        UsesRule.uses("View", "Model"),
+        UsesRule.notAllowed("View", "Model"),
         SubComponentRule.subComponentOf("ComponentOne", "ComponentOne")
     );
   }

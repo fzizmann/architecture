@@ -14,13 +14,30 @@ public class UsesRule implements Rule {
     this.typeB = typeB;
   }
 
-  public static Rule uses(String typeA, String typeB) {
+  public static Rule notAllowed(String typeA, String typeB) {
 
     return new UsesRule(typeA, typeB);
   }
 
   @Override
   public ArrayList<Violation> execute(Architecture architecture) {
-    return null;
+    ArrayList<Violation> result = new ArrayList<>();
+    architecture.getComponentIndex().forEach(
+        (componentClass, sourceComponent) -> sourceComponent.getUsed()
+            .forEach((aClass, targetComponent) -> {
+              if (sourceComponent.getType() != null &&
+                  sourceComponent.getType() != null &&
+                  sourceComponent.getType().equals(typeA) &&
+                  targetComponent.getType().equals(typeB)) {
+                result.add(new RuleViolation(
+                    "Komponente " + sourceComponent.getComponentName() +
+                        " mit Typ " + sourceComponent.getType() + " greift unerlaubt auf " +
+                        "Komponente " + targetComponent.getComponentName() +
+                        " mit Typ " + sourceComponent.getType()
+                ));
+              }
+            }));
+
+    return result;
   }
 }

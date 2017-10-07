@@ -2,7 +2,6 @@ package de.thb.fz.analyzer;
 
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
-import de.thb.fz.style.pattern.PatternViolation;
 import de.thb.fz.violation.ArchitectureViolation;
 import de.thb.fz.violation.UndefiendClassViolation;
 import de.thb.fz.violation.UnusedInterfaceViolation;
@@ -107,9 +106,8 @@ public class ArchitectureAnalyser {
   /**
    * Prüft ob die definierten Architekturstile eingehalten wurden.
    */
-  public ArrayList<PatternViolation> analyzeStyle(Architecture architecture) {
-    final ArrayList<PatternViolation> result = new ArrayList<>();
-    //TODO Architekturstile umbauen, Regeln und Beziehungen als DSL schreiben
+  public ArrayList<Violation> analyzeStyle(Architecture architecture) {
+    final ArrayList<Violation> result = new ArrayList<>();
     architecture.getStyles().forEach(style -> result.addAll(style.validate(architecture)));
     return result;
   }

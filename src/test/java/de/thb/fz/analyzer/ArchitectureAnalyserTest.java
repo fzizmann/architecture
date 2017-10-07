@@ -41,7 +41,8 @@ public class ArchitectureAnalyserTest {
 
   @Test
   public void analyzeStyle() throws Exception {
-    architectureAnalyser.analyzeStyle(architecture);
+    architectureAnalyser.analyzeStyle(architecture)
+        .forEach(violation -> System.out.println(violation.getViolationMessage()));
   }
 
   @Test

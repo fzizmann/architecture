@@ -1,10 +1,11 @@
 package de.thb.fz.style.pattern;
 
 import de.thb.fz.dsl.Architecture;
+import de.thb.fz.violation.Violation;
 import java.util.ArrayList;
 
 public interface Style {
 
-  ArrayList<PatternViolation> validate(Architecture architecture);
+  ArrayList<Violation> validate(Architecture architecture);
 
 }
