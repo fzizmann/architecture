@@ -9,6 +9,7 @@ import de.thb.fz.style.pattern.Mvc;
 import de.thb.fz.style.pattern.PatternViolation;
 import de.thb.fz.style.rule.SubComponentRule;
 import de.thb.fz.style.rule.UsesRule;
+import de.thb.fz.violation.UnusedInterfaceViolation;
 import de.thb.fz.violation.Violation;
 
 /**
@@ -23,17 +24,19 @@ public class ArchitectureExample implements ArchitectureDescription {
             .structure(
                 "de.thb.fz.violation"
             )
-            .interfaces(Violation.class)
+            .interfaces(Violation.class, UnusedInterfaceViolation.class)
+            .type("controller")
         , component("style")
             .structure(
                 "de.thb.fz.style"
             )
             .implementations(PatternViolation.class)
+            .type("view")
     ).styles(
         new Mvc()
     ).rules(
-        UsesRule.notAllowed("View", "Model"),
-        SubComponentRule.subComponentOf("ComponentOne", "ComponentOne")
+        UsesRule.notAllowed("view", "controller"),
+        SubComponentRule.subComponentOf("violation", "view")
     );
   }
 }

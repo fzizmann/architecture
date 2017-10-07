@@ -46,6 +46,18 @@ public class ArchitectureAnalyserTest {
   }
 
   @Test
+  public void analyzeRules() throws Exception {
+    architectureAnalyser.analyzeRules(architecture)
+        .forEach(violation -> System.out.println(violation.getViolationMessage()));
+  }
+
+  @Test
+  public void chackInterfaces() throws Exception {
+    architectureAnalyser.checkInterfaces(architecture)
+        .forEach(violation -> System.out.println(violation.getViolationMessage()));
+  }
+
+  @Test
   public void analyzeWeights() throws Exception {
     System.out.println(architectureAnalyser.analyzeWeights(architecture));
   }

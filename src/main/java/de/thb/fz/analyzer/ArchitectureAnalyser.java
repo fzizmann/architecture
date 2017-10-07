@@ -3,6 +3,7 @@ package de.thb.fz.analyzer;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.Component;
 import de.thb.fz.violation.ArchitectureViolation;
+import de.thb.fz.violation.InterfaceViolation;
 import de.thb.fz.violation.UndefiendClassViolation;
 import de.thb.fz.violation.UnusedInterfaceViolation;
 import de.thb.fz.violation.Violation;
@@ -34,15 +35,13 @@ public class ArchitectureAnalyser {
             });
           }
           // umwandlung der Verletzungsliste zu Architekturverletzungen
-          componentViolationList.forEach((sourceClass, classes) -> {
-            classes.forEach(targetClass -> {
-              result.add(
-                  new ArchitectureViolation(sourceClass.getName(), targetClass.getName(),
-                      component.getComponentName(),
-                      architecture.getComponentIndex().get(targetClass).getComponentName())
-              );
-            });
-          });
+          componentViolationList.forEach((sourceClass, classes) -> classes.forEach(targetClass -> {
+            result.add(
+                new ArchitectureViolation(sourceClass.getName(), targetClass.getName(),
+                    component.getComponentName(),
+                    architecture.getComponentIndex().get(targetClass).getComponentName())
+            );
+          }));
         }));
 
     return result;
@@ -95,6 +94,22 @@ public class ArchitectureAnalyser {
   }
 
   /**
+   * Prüft ob alle als Interface definierten Klassen Java-Interfaces sind.
+   */
+  public ArrayList<Violation> checkInterfaces(Architecture architecture) {
+    ArrayList<Violation> result = new ArrayList<>();
+    architecture.getComponentIndex().values().stream().distinct()
+        .forEach(component -> component.getInterfaces().forEach(
+            interfaceClass -> {
+              if (!interfaceClass.isInterface()) {
+                result.add(new InterfaceViolation(interfaceClass.getName()));
+              }
+            })
+        );
+    return result;
+  }
+
+  /**
    * Prüft alle definierten Regeln.
    */
   public ArrayList<Violation> analyzeRules(Architecture architecture) {
@@ -117,7 +132,8 @@ public class ArchitectureAnalyser {
    * notwendig.
    */
   public String analyzeWeights(Architecture architecture) {
-    final StringBuffer result = new StringBuffer("digraph architecture {");
+    final StringBuffer result = new StringBuffer("digraph architecture {")
+        .append(System.getProperty("line.separator"));
     architecture.getComponentIndex().values().stream().distinct().forEach(component -> {
       HashMap<Component, Integer> targetUsageCount = calculateSourceWeight(component);
       HashMap<Component, Integer> sourceUsageCount = calculateTargetWeight(component);
@@ -129,7 +145,8 @@ public class ArchitectureAnalyser {
           .append(sourceUsageCount.get(targetComponent))
           .append("\", taillabel = \"")
           .append(targetUsageCount.get(targetComponent))
-          .append("\" ];"));
+          .append("\" ];")
+          .append(System.getProperty("line.separator")));
     });
     result.append("}");
 
