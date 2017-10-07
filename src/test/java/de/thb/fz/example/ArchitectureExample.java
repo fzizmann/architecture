@@ -1,4 +1,4 @@
-package de.thb.example;
+package de.thb.fz.example;
 
 import static de.thb.fz.dsl.Architecture.architecture;
 import static de.thb.fz.dsl.Component.component;

@@ -7,10 +7,12 @@ import de.thb.fz.violation.ArchitectureViolation;
 import de.thb.fz.violation.UndefiendClassViolation;
 import de.thb.fz.violation.UnusedInterfaceViolation;
 import de.thb.fz.violation.Violation;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map.Entry;
+import org.codehaus.plexus.util.FileUtils;
 
 public class ArchitectureAnalyser {
 
@@ -116,21 +118,30 @@ public class ArchitectureAnalyser {
    * Errechnet die Gewichte zwischen den Kompoenten. Diese Methode ist für die Graphenzeichnung
    * notwendig.
    */
-  public ArrayList<String> analyzeWeights(Architecture architecture) {
-    final ArrayList<String> result = new ArrayList<>();
+  public String analyzeWeights(Architecture architecture) {
+    final StringBuffer result = new StringBuffer("digraph architecture {");
     architecture.getComponentIndex().values().stream().distinct().forEach(component -> {
       HashMap<Component, Integer> targetUsageCount = calculateSourceWeight(component);
       HashMap<Component, Integer> sourceUsageCount = calculateTargetWeight(component);
 
-      //TODO als Graph in eine Datei schreiben
-      targetUsageCount.forEach((targetComponent, integer) -> result.add(
-          component.getComponentName() + " -> " +
-              sourceUsageCount.get(targetComponent) + " -> " +
-              targetUsageCount.get(targetComponent) + " -> " +
-              targetComponent
-      ));
+      targetUsageCount.forEach((targetComponent, integer) -> result
+          .append(component.getComponentName())
+          .append(" -> ").append(targetComponent)
+          .append(" [ headlabel = \"   ")
+          .append(sourceUsageCount.get(targetComponent))
+          .append("\", taillabel = \"")
+          .append(targetUsageCount.get(targetComponent))
+          .append("\" ];"));
     });
-    return result;
+    result.append("}");
+
+    try {
+      FileUtils.fileWrite("architectureGraph.dot", result.toString());
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return result.toString();
   }
 
   /**

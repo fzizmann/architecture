@@ -1,4 +1,4 @@
-package de.fz;
+package de.thb.fz.maven;
 
 import de.thb.fz.analyzer.ArchitectureAnalyser;
 import de.thb.fz.dependency.DependencyLoader;
@@ -11,9 +11,6 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-/**
- *
- */
 @Mojo(name = "analyze", defaultPhase = LifecyclePhase.TEST)
 public class ArchitectureMojo extends AbstractMojo {
 
@@ -37,9 +34,7 @@ public class ArchitectureMojo extends AbstractMojo {
         architectureAnalyser.analyzeStyle(architecture).forEach(
             patternViolation -> getLog().info(patternViolation.getViolationMessage())
         );
-        architectureAnalyser.analyzeWeights(architecture).forEach(
-            s -> getLog().info(s)
-        );
+        getLog().info(architectureAnalyser.analyzeWeights(architecture));
       }
     } catch (Exception e) {
       getLog().error(e.toString());

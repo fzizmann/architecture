@@ -1,9 +1,9 @@
 package de.thb.fz.analyzer;
 
-import de.thb.example.ArchitectureExample;
 import de.thb.fz.dependency.DependencyLoader;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.builder.ArchitectureBuilder;
+import de.thb.fz.example.ArchitectureExample;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class ArchitectureAnalyserTest {
 
   @Test
   public void analyzeWeights() throws Exception {
-    architectureAnalyser.analyzeWeights(architecture);
+    System.out.println(architectureAnalyser.analyzeWeights(architecture));
   }
 
 }
