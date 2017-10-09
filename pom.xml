@@ -19,18 +19,19 @@
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
       <version>2.0</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-tools-api</artifactId>
       <version>2.1</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
       <version>3.5.0</version>
-      <scope>compile</scope>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
@@ -48,7 +49,6 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.12</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.ow2.asm</groupId>
@@ -84,7 +84,7 @@
       <!--<plugin>-->
       <!--<groupId>de.thb.fz</groupId>-->
       <!--<artifactId>architecture-maven-plugin</artifactId>-->
-      <!--<version>1.0-SNAPSHOT</version>-->
+      <!--<version>1.0</version>-->
       <!--<executions>-->
       <!--<execution>-->
       <!--<phase>test</phase>-->

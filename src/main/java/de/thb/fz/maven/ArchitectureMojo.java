@@ -57,7 +57,7 @@ public class ArchitectureMojo extends AbstractMojo {
         );
 
         getLog().info("");
-        getLog().info("Nicht genutzte Interface:");
+        getLog().info("Nicht genutzte Interfaces:");
         getLog().info("");
         architectureAnalyser.analyzeUnusedInterfaces(architecture).forEach(
             unusedInterfaceViolation -> getLog().info(unusedInterfaceViolation.toString())
