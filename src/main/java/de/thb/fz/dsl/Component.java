@@ -46,7 +46,7 @@ public class Component {
    */
   private HashMap<Class, Component> used = new HashMap<>();
   /**
-   * Diese Klasse nutzt Komponenten in der gemappten Komponente.
+   * Diese Klasse nutzt Klassen in den gemappten Komponenten.
    */
   private HashMap<Class, HashSet<Component>> uses = new HashMap<>();
 
