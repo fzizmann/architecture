@@ -8,7 +8,7 @@ public class FieldDependencyVisitor extends FieldVisitor {
 
   private DependencyList dependencyList;
 
-  public FieldDependencyVisitor(DependencyList dependencyList) {
+  FieldDependencyVisitor(DependencyList dependencyList) {
     super(327680);
     this.dependencyList = dependencyList;
   }
