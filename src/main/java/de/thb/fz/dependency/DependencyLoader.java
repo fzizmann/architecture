@@ -39,7 +39,8 @@ public class DependencyLoader {
    */
   public ArrayList<Class> findDependenciesForClass(String aClass) {
 
-    DependencyVisitor classVisitor = new DependencyVisitor();
+    DependencyList dependencyList = new DependencyList();
+    DependencyVisitor classVisitor = new DependencyVisitor(dependencyList);
     try {
       InputStream stream = this.getClass().getClassLoader()
           .getResourceAsStream(aClass.replace('.', '/') + ".class");
@@ -51,7 +52,7 @@ public class DependencyLoader {
 
     ArrayList<Class> classes = new ArrayList<>();
     String replace = aClass.replace('.', '/');
-    classVisitor.getGlobals().get(replace).forEach((s, integer) -> {
+    dependencyList.getGlobals().get(replace).forEach((s, integer) -> {
       try {
         classes.add(Class.forName(s));
       } catch (ClassNotFoundException e) {
