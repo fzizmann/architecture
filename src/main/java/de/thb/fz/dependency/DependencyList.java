@@ -16,12 +16,6 @@ class DependencyList {
     return dependencies;
   }
 
-  private void addName(String name) {
-    if (name != null) {
-      this.dependencies.add(name.replace('/', '.'));
-    }
-  }
-
   void addInternalName(String name) {
     this.addType(Type.getObjectType(name));
   }
@@ -41,7 +35,9 @@ class DependencyList {
         this.addType(t.getElementType());
         break;
       case 10:
-        this.addName(t.getInternalName());
+        if (t.getInternalName() != null) {
+          this.dependencies.add(t.getInternalName().replace('/', '.'));
+        }
         break;
       case 11:
         this.addMethodDesc(t.getDescriptor());
