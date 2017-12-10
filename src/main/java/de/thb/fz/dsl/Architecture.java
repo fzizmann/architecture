@@ -69,8 +69,4 @@ public class Architecture {
   public ArrayList<Rule> getRules() {
     return rules;
   }
-
-  public void setRules(ArrayList<Rule> rules) {
-    this.rules = rules;
-  }
 }
