@@ -19,7 +19,6 @@ public class DependencyVisitor extends ClassVisitor {
 
   public void visit(int version, int access, String name, String signature, String superName,
       String[] interfaces) {
-    this.dependencyList.initializeCurrent(name);
     if (signature == null) {
       if (superName != null) {
         this.dependencyList.addInternalName(superName);
@@ -49,7 +48,6 @@ public class DependencyVisitor extends ClassVisitor {
     } else {
       (new SignatureReader(signature)).acceptType(new SignatureDependencyVisitor(dependencyList));
     }
-
     if (value instanceof Type) {
       this.dependencyList.addType((Type) value);
     }

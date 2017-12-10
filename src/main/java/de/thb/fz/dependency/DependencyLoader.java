@@ -51,8 +51,7 @@ public class DependencyLoader {
     }
 
     ArrayList<Class> classes = new ArrayList<>();
-    String replace = aClass.replace('.', '/');
-    dependencyList.getGroups().get(replace).forEach((s, integer) -> {
+    dependencyList.getDependencies().forEach((s) -> {
       try {
         classes.add(Class.forName(s));
       } catch (ClassNotFoundException e) {

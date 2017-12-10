@@ -1,31 +1,24 @@
 package de.thb.fz.dependency;
 
-import java.util.HashMap;
+import java.util.HashSet;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;
 
 class DependencyList {
 
-  private HashMap<String, HashMap<String, Integer>> groups = new HashMap<>();
-  private HashMap<String, Integer> current;
+  private HashSet<String> dependencies;
 
-  void initializeCurrent(String name) {
-    this.current = this.groups.computeIfAbsent(name, k -> new HashMap<>());
+  DependencyList() {
+    this.dependencies = new HashSet<>();
   }
 
-  HashMap<String, HashMap<String, Integer>> getGroups() {
-    return this.groups;
+  HashSet<String> getDependencies() {
+    return dependencies;
   }
 
   private void addName(String name) {
     if (name != null) {
-      String p = name.replace('/', '.');
-      if (this.current.containsKey(p)) {
-        this.current.put(p, this.current.get(p) + 1);
-      } else {
-        this.current.put(p, 1);
-      }
-
+      this.dependencies.add(name.replace('/', '.'));
     }
   }
 
