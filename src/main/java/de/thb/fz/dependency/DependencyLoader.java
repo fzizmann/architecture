@@ -52,7 +52,7 @@ public class DependencyLoader {
 
     ArrayList<Class> classes = new ArrayList<>();
     String replace = aClass.replace('.', '/');
-    dependencyList.getGlobals().get(replace).forEach((s, integer) -> {
+    dependencyList.getGroups().get(replace).forEach((s, integer) -> {
       try {
         classes.add(Class.forName(s));
       } catch (ClassNotFoundException e) {

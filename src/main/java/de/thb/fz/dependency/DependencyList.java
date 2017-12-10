@@ -1,29 +1,25 @@
 package de.thb.fz.dependency;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;
 
 class DependencyList {
 
-  private HashSet<String> packages = new HashSet<>();
   private HashMap<String, HashMap<String, Integer>> groups = new HashMap<>();
   private HashMap<String, Integer> current;
 
-  HashMap<String, HashMap<String, Integer>> getGlobals() {
-    return this.groups;
+  void initializeCurrent(String name) {
+    this.current = this.groups.computeIfAbsent(name, k -> new HashMap<>());
   }
 
-  private String getGroupKey(String name) {
-    this.packages.add(name);
-    return name;
+  HashMap<String, HashMap<String, Integer>> getGroups() {
+    return this.groups;
   }
 
   private void addName(String name) {
     if (name != null) {
-      String p = this.getGroupKey(name);
-      p = p.replace('/', '.');
+      String p = name.replace('/', '.');
       if (this.current.containsKey(p)) {
         this.current.put(p, this.current.get(p) + 1);
       } else {
@@ -36,7 +32,6 @@ class DependencyList {
   void addInternalName(String name) {
     this.addType(Type.getObjectType(name));
   }
-
 
   void addMethodDesc(String desc) {
     this.addType(Type.getReturnType(desc));
@@ -78,10 +73,5 @@ class DependencyList {
       this.addInternalName(h.getOwner());
       this.addMethodDesc(h.getDesc());
     }
-
-  }
-
-  void initializeCurrent(String name) {
-    this.current = this.groups.computeIfAbsent(this.getGroupKey(name), k -> new HashMap<>());
   }
 }
