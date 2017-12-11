@@ -1,6 +1,7 @@
 package de.thb.fz.asm;
 
-import de.thb.fz.analyzer.ArchitectureAnalyserTest;
+import de.thb.fz.dependency.DependencyList;
+import de.thb.fz.dependency.DependencyVisitor;
 import java.io.IOException;
 import java.io.InputStream;
 import org.junit.Test;
@@ -10,13 +11,13 @@ public class ByteCodeTest {
 
   @Test
   public void loadClassAndTestVisitor() {
-    TestVisitor tv = new TestVisitor();
+    DependencyVisitor dv = new DependencyVisitor(new DependencyList());
     InputStream stream = this.getClass().getClassLoader().getResourceAsStream(
-        ArchitectureAnalyserTest.class.getName().replace('.', '/') + ".class"
+        de.thb.fz.bytecode.Test.class.getName().replace('.', '/') + ".class"
     );
     try {
       ClassReader classReader = new ClassReader(stream);
-      classReader.accept(tv, 0);
+      classReader.accept(dv, 0);
     } catch (IOException e) {
       e.printStackTrace();
     }

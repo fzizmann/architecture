@@ -12,7 +12,7 @@ public class DependencyVisitor extends ClassVisitor {
 
   private DependencyList dependencyList;
 
-  DependencyVisitor(DependencyList dependencyList) {
+  public DependencyVisitor(DependencyList dependencyList) {
     super(327680);
     this.dependencyList = dependencyList;
   }

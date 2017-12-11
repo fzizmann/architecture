@@ -4,11 +4,11 @@ import java.util.HashSet;
 import org.objectweb.asm.Handle;
 import org.objectweb.asm.Type;
 
-class DependencyList {
+public class DependencyList {
 
   private HashSet<String> dependencies;
 
-  DependencyList() {
+  public DependencyList() {
     this.dependencies = new HashSet<>();
   }
 
