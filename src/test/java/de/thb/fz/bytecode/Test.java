@@ -1,20 +1,24 @@
 package de.thb.fz.bytecode;
 
 import java.util.ArrayList;
+import javax.annotation.Untainted;
+import javax.xml.ws.soap.Addressing;
 
-public class Test {
+@Addressing
+public class Test
+//    <@Encrypt(author = {"asd","author2"}, description = "test", enume = En.APPLE, scriptingLang = @Another("Groovy")) String>
 
-  /**
-   * @see AnnotationReference
-   */
-  private ArrayList<ClassReference> classReferenceTest;
+{
 
-  public FieldReference test(MethodReference reference) {
+  ArrayList<ClassReference> classReferenceTest;
+
+  Type test;
+
+  public FieldReference test(@Untainted MethodReference reference) {
     return new FieldReference(reference);
   }
 
-  class SubClassReference {
+  class Type {
 
-    private String test;
   }
 }
