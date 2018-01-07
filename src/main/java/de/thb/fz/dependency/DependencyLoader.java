@@ -20,7 +20,7 @@ public class DependencyLoader {
    */
   public Set<Class<?>> generateClassList(String packageName) {
     Set<Class<?>> result = new HashSet<>();
-    Reflections reflections = new Reflections(packageName, new ResourcesScanner());
+    Reflections reflections = new Reflections(packageName + ".", new ResourcesScanner());
     Set<String> resources = reflections.getResources(Pattern.compile(".*"));
     resources.forEach(className -> {
       try {

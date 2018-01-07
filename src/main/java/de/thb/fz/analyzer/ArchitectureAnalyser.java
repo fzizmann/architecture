@@ -162,7 +162,7 @@ public class ArchitectureAnalyser {
                     .append(sourceUsageCount.get(targetComponent))
                     .append("\", taillabel = \"")
                     .append(targetUsageCount.get(targetComponent))
-                    .append("\" ];")
+                .append("   \" ];")
                     .append(System.getProperty("line.separator")));
         });
         result.append("}");
