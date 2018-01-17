@@ -41,8 +41,10 @@ public class ArchitectureMojo extends AbstractMojo {
         runtimeUrls[i] = new File(element).toURI().toURL();
       }
 
+      ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
       URLClassLoader newLoader = new URLClassLoader(runtimeUrls,
-          Thread.currentThread().getContextClassLoader());
+          contextClassLoader);
+      Thread.currentThread().setContextClassLoader(newLoader);
       Object architectureClass = newLoader.loadClass(this.architectureClass).newInstance();
 
       if (architectureClass instanceof ArchitectureDescription) {

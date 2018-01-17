@@ -21,11 +21,13 @@ public class DependencyLoader {
   public Set<Class<?>> generateClassList(String packageName) {
     Set<Class<?>> result = new HashSet<>();
     Reflections reflections = new Reflections(packageName + ".", new ResourcesScanner());
+    ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
     Set<String> resources = reflections.getResources(Pattern.compile(".*"));
     resources.forEach(className -> {
       try {
         if (className.endsWith(".class")) {
-          result.add(Class.forName(className.replace('/', '.').replace(".class", "")));
+          result
+              .add(contextClassLoader.loadClass(className.replace('/', '.').replace(".class", "")));
         }
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
@@ -41,8 +43,9 @@ public class DependencyLoader {
 
     DependencyList dependencyList = new DependencyList();
     DependencyVisitor classVisitor = new DependencyVisitor(dependencyList);
+    ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
     try {
-      InputStream stream = this.getClass().getClassLoader()
+      InputStream stream = contextClassLoader
           .getResourceAsStream(aClass.replace('.', '/') + ".class");
       ClassReader classReader = new ClassReader(stream);
       classReader.accept(classVisitor, 0);
@@ -53,7 +56,7 @@ public class DependencyLoader {
     ArrayList<Class> classes = new ArrayList<>();
     dependencyList.getDependencies().forEach((s) -> {
       try {
-        classes.add(Class.forName(s));
+        classes.add(contextClassLoader.loadClass(s));
       } catch (ClassNotFoundException e) {
         e.printStackTrace();
       }
