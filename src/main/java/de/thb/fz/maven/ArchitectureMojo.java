@@ -5,6 +5,10 @@ import de.thb.fz.dependency.DependencyLoader;
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.ArchitectureDescription;
 import de.thb.fz.dsl.builder.ArchitectureBuilder;
+import de.thb.fz.violation.ArchitectureViolation;
+import de.thb.fz.violation.UndefiendClassViolation;
+import de.thb.fz.violation.UnusedInterfaceViolation;
+import de.thb.fz.violation.Violation;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -13,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -29,8 +34,9 @@ public class ArchitectureMojo extends AbstractMojo {
   @Parameter(property = "strictInterface")
   private boolean strictInterface;
 
-  public void execute() throws MojoExecutionException {
+  public void execute() throws MojoExecutionException, MojoFailureException {
     ArchitectureAnalyser architectureAnalyser = new ArchitectureAnalyser();
+    boolean violationExist = false;
     try {
       List runtimeClasspathElements = ((MavenProject) this.getPluginContext().get("project"))
           .getRuntimeClasspathElements();
@@ -54,14 +60,18 @@ public class ArchitectureMojo extends AbstractMojo {
 
         getLog().info("Komponentenverletzungen:");
         getLog().info("");
-        architectureAnalyser.analyzeInterfaceAndImplementation(architecture).forEach(
+        ArrayList<ArchitectureViolation> architectureViolations = architectureAnalyser
+            .analyzeInterfaceAndImplementation(architecture);
+        architectureViolations.forEach(
             architectureViolation -> getLog().info(architectureViolation.toString())
         );
 
         getLog().info("");
         getLog().info("Nicht genutzte Interfaces:");
         getLog().info("");
-        architectureAnalyser.analyzeUnusedInterfaces(architecture).forEach(
+        ArrayList<UnusedInterfaceViolation> unusedInterfaceViolations = architectureAnalyser
+            .analyzeUnusedInterfaces(architecture);
+        unusedInterfaceViolations.forEach(
             unusedInterfaceViolation -> getLog().info(unusedInterfaceViolation.toString())
         );
 
@@ -69,7 +79,9 @@ public class ArchitectureMojo extends AbstractMojo {
         getLog().info("Nicht definierte Klassen:");
         getLog().info("");
         Set<Class<?>> classes = new DependencyLoader().generateClassList(this.basePackage);
-        architectureAnalyser.analyzeUndefinedClasses(architecture, new ArrayList<>(classes))
+        ArrayList<UndefiendClassViolation> undefiendClassViolations = architectureAnalyser
+            .analyzeUndefinedClasses(architecture, new ArrayList<>(classes));
+        undefiendClassViolations
             .forEach(
                 unusedInterfaceViolation -> getLog().info(unusedInterfaceViolation.toString())
             );
@@ -77,14 +89,16 @@ public class ArchitectureMojo extends AbstractMojo {
         getLog().info("");
         getLog().info("Regelverletzungen:");
         getLog().info("");
-        architectureAnalyser.analyzeRules(architecture).forEach(
+        ArrayList<Violation> ruleViolations = architectureAnalyser.analyzeRules(architecture);
+        ruleViolations.forEach(
             ruleViolation -> getLog().info(ruleViolation.getViolationMessage())
         );
 
         getLog().info("");
         getLog().info("Stilverletzungen:");
         getLog().info("");
-        architectureAnalyser.analyzeStyle(architecture).forEach(
+        ArrayList<Violation> styleViolations = architectureAnalyser.analyzeStyle(architecture);
+        styleViolations.forEach(
             styleViolation -> getLog().info(styleViolation.getViolationMessage())
         );
 
@@ -97,15 +111,30 @@ public class ArchitectureMojo extends AbstractMojo {
           getLog().info("");
           getLog().info("Klassen die als Interface definiert wurden:");
           getLog().info("");
-          architectureAnalyser.checkInterfaces(architecture).forEach(
+          ArrayList<Violation> interfaceViolations = architectureAnalyser
+              .checkInterfaces(architecture);
+          interfaceViolations.forEach(
               violation -> getLog().info(violation.getViolationMessage())
           );
+          if (!interfaceViolations.isEmpty()) {
+            violationExist = true;
+          }
         }
-
+        if (!styleViolations.isEmpty() ||
+            !architectureViolations.isEmpty() ||
+            !unusedInterfaceViolations.isEmpty() ||
+            !undefiendClassViolations.isEmpty() ||
+            !ruleViolations.isEmpty()) {
+          violationExist = true;
+        }
       }
     } catch (Exception e) {
       getLog().error(e.toString());
     }
     getLog().info("Architecture Class: " + architectureClass);
+
+    if (violationExist) {
+      throw new MojoFailureException("Es sind nicht behandelte Architekturfehler aufgetreten.");
+    }
   }
 }
