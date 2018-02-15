@@ -33,6 +33,8 @@ public class ArchitectureMojo extends AbstractMojo {
   private String basePackage;
   @Parameter(property = "strictInterface")
   private boolean strictInterface;
+  @Parameter(property = "useContextClassloader")
+  private boolean useContextClassloader;
 
   public void execute() throws MojoExecutionException, MojoFailureException {
     ArchitectureAnalyser architectureAnalyser = new ArchitectureAnalyser();
@@ -50,7 +52,10 @@ public class ArchitectureMojo extends AbstractMojo {
       ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
       URLClassLoader newLoader = new URLClassLoader(runtimeUrls,
           contextClassLoader);
-      Thread.currentThread().setContextClassLoader(newLoader);
+      if (useContextClassloader) {
+        Thread.currentThread().setContextClassLoader(newLoader);
+      }
+
       Object architectureClass = newLoader.loadClass(this.architectureClass).newInstance();
 
       if (architectureClass instanceof ArchitectureDescription) {
