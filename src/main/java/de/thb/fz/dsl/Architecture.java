@@ -1,7 +1,7 @@
 package de.thb.fz.dsl;
 
-import de.thb.fz.style.pattern.Style;
-import de.thb.fz.style.rule.Rule;
+import de.thb.fz.dsl.style.pattern.Pattern;
+import de.thb.fz.dsl.style.rule.Rule;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ public class Architecture {
   /**
    * In der Architektur werwendete Stile
    */
-  private ArrayList<Style> styles;
+  private ArrayList<Pattern> patterns;
   /**
    * Ein Zuordnung von allen Klassennamen und Komponenten
    */
@@ -27,7 +27,7 @@ public class Architecture {
 
   private Architecture() {
     this.components = new ArrayList<>();
-    this.styles = new ArrayList<>();
+    this.patterns = new ArrayList<>();
     this.rules = new ArrayList<>();
   }
 
@@ -47,8 +47,8 @@ public class Architecture {
     return new Architecture().components(components);
   }
 
-  public Architecture styles(Style... styles) {
-    this.styles.addAll(Arrays.asList(styles));
+  public Architecture pattern(Pattern... patterns) {
+    this.patterns.addAll(Arrays.asList(patterns));
     return this;
   }
 
@@ -62,8 +62,8 @@ public class Architecture {
     return this;
   }
 
-  public ArrayList<Style> getStyles() {
-    return styles;
+  public ArrayList<Pattern> getPatterns() {
+    return patterns;
   }
 
   public ArrayList<Rule> getRules() {

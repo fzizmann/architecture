@@ -2,13 +2,12 @@ package de.thb.fz.example;
 
 import static de.thb.fz.dsl.Architecture.architecture;
 import static de.thb.fz.dsl.Component.component;
+import static de.thb.fz.dsl.style.pattern.Mvc.mvc;
+import static de.thb.fz.dsl.style.rule.UsesRule.disallowUsage;
 
 import de.thb.fz.dsl.Architecture;
 import de.thb.fz.dsl.ArchitectureDescription;
-import de.thb.fz.style.pattern.Mvc;
-import de.thb.fz.style.pattern.PatternViolation;
-import de.thb.fz.style.rule.SubComponentRule;
-import de.thb.fz.style.rule.UsesRule;
+import de.thb.fz.violation.PatternViolation;
 import de.thb.fz.violation.UnusedInterfaceViolation;
 import de.thb.fz.violation.Violation;
 
@@ -28,15 +27,14 @@ public class ArchitectureExample implements ArchitectureDescription {
             .type("controller")
         , component("style")
             .structure(
-                "de.thb.fz.style"
+                "de.thb.fz.dsl.style"
             )
             .implementations(PatternViolation.class)
             .type("view")
-    ).styles(
-        new Mvc()
+    ).pattern(
+        mvc()
     ).rules(
-        UsesRule.notAllowed("view", "controller"),
-        SubComponentRule.subComponentOf("violation", "view")
+        disallowUsage("view", "controller")
     );
   }
 }

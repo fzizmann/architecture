@@ -1,4 +1,4 @@
-package de.thb.fz.style.pattern;
+package de.thb.fz.violation;
 
 import de.thb.fz.violation.Violation;
 

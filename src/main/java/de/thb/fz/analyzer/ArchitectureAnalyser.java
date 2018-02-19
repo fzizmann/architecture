@@ -136,7 +136,7 @@ public class ArchitectureAnalyser {
    */
   public ArrayList<Violation> analyzeStyle(Architecture architecture) {
     final ArrayList<Violation> result = new ArrayList<>();
-    architecture.getStyles().forEach(style -> style.validate(architecture).forEach(violation -> {
+    architecture.getPatterns().forEach(style -> style.validate(architecture).forEach(violation -> {
       boolean resultNotContainsViolation = true;
       for (Violation resultViolation : result) {
         if (resultViolation.getViolationMessage().equals(violation.getViolationMessage())) {

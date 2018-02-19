@@ -1,3 +1,5 @@
+package de.thb.fz.example;
+
 public class MailMain {
 
   public static void main(String[] args) {

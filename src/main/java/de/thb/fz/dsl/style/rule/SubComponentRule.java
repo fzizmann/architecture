@@ -1,6 +1,7 @@
-package de.thb.fz.style.rule;
+package de.thb.fz.dsl.style.rule;
 
 import de.thb.fz.dsl.Architecture;
+import de.thb.fz.violation.RuleViolation;
 import de.thb.fz.violation.Violation;
 import java.util.ArrayList;
 

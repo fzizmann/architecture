@@ -1,11 +1,16 @@
-package de.thb.fz.style.pattern;
+package de.thb.fz.dsl.style.pattern;
 
 import de.thb.fz.dsl.Architecture;
-import de.thb.fz.style.rule.UsesRule;
+import de.thb.fz.dsl.style.rule.UsesRule;
 import de.thb.fz.violation.Violation;
 import java.util.ArrayList;
 
-public class Mvc implements Style {
+public class Mvc implements Pattern {
+
+
+  public static Mvc mvc() {
+    return new Mvc();
+  }
 
   public static final String VIEW = "view";
   public static final String MODEL = "model";

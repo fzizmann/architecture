@@ -1,3 +1,5 @@
+package de.thb.fz.example;
+
 public class Mail {
 
   public void from(String from) {

@@ -1,11 +1,16 @@
-package de.thb.fz.style.pattern;
+package de.thb.fz.dsl.style.pattern;
 
 import de.thb.fz.dsl.Architecture;
-import de.thb.fz.style.rule.UsesRule;
+import de.thb.fz.dsl.style.rule.UsesRule;
 import de.thb.fz.violation.Violation;
 import java.util.ArrayList;
 
-public class Pipes implements Style {
+public class Pipes implements Pattern {
+
+
+  public static Pipes pipes() {
+    return new Pipes();
+  }
 
   public static final String PIPE = "pipe";
   public static final String FILTER = "filter";
